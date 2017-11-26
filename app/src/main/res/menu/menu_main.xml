@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.lam.coachnutrition.MainActivity">
+
+    <item
+        android:id="@+id/research"
+        android:icon="@drawable/ic_search_24dp"
+        android:title="@string/action_settings"
+        app:showAsAction="always" />
+
+</menu>

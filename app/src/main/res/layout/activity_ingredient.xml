@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1"
+        tools:context=".IngredientActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="0"
+            android:orientation="horizontal"
+            android:layout_marginTop="-1dp"
+            android:weightSum="6">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/cheese"
+                android:background="@android:color/transparent"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:onClick="selectCremerie"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/orange"
+                android:background="@android:color/transparent"
+                android:padding="5dp"
+                android:scaleType="fitCenter"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/salad"
+                android:background="@android:color/transparent"
+                android:padding="5dp"
+                android:scaleType="fitCenter"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/pepper"
+                android:background="@android:color/transparent"
+                android:padding="5dp"
+                android:scaleType="fitCenter"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/fish"
+                android:background="@android:color/transparent"
+                android:padding="5dp"
+                android:scaleType="fitCenter"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/steak"
+                android:background="@android:color/transparent"
+                android:padding="5dp"
+                android:scaleType="fitCenter"/>
+
+        </LinearLayout>
+
+
+        <ListView
+            android:id="@+id/ingredients_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" />
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_add_24dp"
+        android:onClick="addIngredient"/>
+</RelativeLayout>
+
+

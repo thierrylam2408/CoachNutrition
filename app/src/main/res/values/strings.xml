@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Coach Nutrition</string>
+    <string name="action_settings">Settings</string>
+    <string name="ingredients">Ingrédients</string>
+    <string name="cremerie">Crémerie</string>
+    <string name="epice">Epice</string>
+    <string name="poisson">Poisson</string>
+    <string name="viande">Viande</string>
+    <string name="legume">Légume</string>
+    <string name="fruit">Fruit</string>
+    <string name="annuler">Annuler</string>
+    <string name="confirmer">Confirmer</string>
+    <string name="nom">Nom</string>
+    <string name="calories">Calories</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type_ingredient">
+        <item>@string/cremerie</item>
+        <item>@string/fruit</item>
+        <item>@string/legume</item>
+        <item>@string/epice</item>
+        <item>@string/poisson</item>
+        <item>@string/viande</item>
+    </string-array>
+</resources>
