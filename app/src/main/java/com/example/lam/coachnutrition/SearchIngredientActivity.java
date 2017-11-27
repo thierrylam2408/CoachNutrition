@@ -9,29 +9,29 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.SimpleCursorAdapter;
 
 
 public class SearchIngredientActivity extends AppCompatActivity {
 
-    private ListAdapter adapter;
-    private Cursor cursor;
+    private CursorAdapter adapter;
     private ListView listView;
+    private AccessProvider accessProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_research_ingredient);
-
-        //Mettre le bouton back
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         listView = (ListView) findViewById(R.id.ingredients_list);
-        adapter = FakeAdapterFactory.ingredientAdapter(this);
+        accessProvider = new AccessProvider(this);
+        String[] columns = {AccessProvider.columnId, AccessProvider.columnName, AccessProvider.columnCalorie};
+        adapter = AdapterProvider.getTwoItemAdapter(this, null);
         listView.setAdapter(adapter);
     }
 
@@ -62,15 +62,20 @@ public class SearchIngredientActivity extends AppCompatActivity {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    Toast.makeText(SearchIngredientActivity.this, query, Toast.LENGTH_SHORT).show();
+                    String[] columns = {AccessProvider.columnId, AccessProvider.columnName, AccessProvider.columnCalorie};
+                    Cursor cursor = accessProvider.query(columns, AccessProvider.columnName+" LIKE '%"+query+"%'");
+                    adapter.swapCursor(cursor);
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String s) {
-                    // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                    String[] columns = {AccessProvider.columnId, AccessProvider.columnName, AccessProvider.columnCalorie};
+                    Cursor cursor = accessProvider.query(columns, AccessProvider.columnName+" LIKE '%"+s+"%'");
+                    adapter.swapCursor(cursor);
                     return false;
                 }
+
             });
         }
 
