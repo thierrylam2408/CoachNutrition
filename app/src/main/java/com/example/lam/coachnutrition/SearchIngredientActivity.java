@@ -13,6 +13,7 @@ import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 
 public class SearchIngredientActivity extends AppCompatActivity {
@@ -20,18 +21,28 @@ public class SearchIngredientActivity extends AppCompatActivity {
     private CursorAdapter adapter;
     private ListView listView;
     private AccessProvider accessProvider;
+    private ModeAffichageIngredient modeAffichage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState == null){
+            modeAffichage = new ModeAffichageIngredient(this);
+        }else{
+            boolean detail = savedInstanceState.getBoolean("detail");
+            boolean name = savedInstanceState.getBoolean("name");
+            boolean calorie = savedInstanceState.getBoolean("calorie");
+            boolean croissant = savedInstanceState.getBoolean("croissant");
+            modeAffichage = new ModeAffichageIngredient(this, detail, name, calorie, croissant);
+        }
         setContentView(R.layout.activity_research_ingredient);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         listView = (ListView) findViewById(R.id.ingredients_list);
         accessProvider = new AccessProvider(this);
-        //String[] columns = {AccessProvider.columnId, AccessProvider.columnName, AccessProvider.columnCalorie};
-        adapter = AdapterProvider.getTwoItemAdapter(this, null);
+        adapter = AdapterProvider.getOneItemAdapter(this, null);
         listView.setAdapter(adapter);
     }
 
@@ -62,20 +73,23 @@ public class SearchIngredientActivity extends AppCompatActivity {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    String[] columns = {AccessProvider.columnId, AccessProvider.columnName, AccessProvider.columnCalorie};
-                    Cursor cursor = accessProvider.query(columns, AccessProvider.columnName+" LIKE '%"+query+"%'");
-                    adapter.swapCursor(cursor);
+                    recherche(query);
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String s) {
-                    String[] columns = {AccessProvider.columnId, AccessProvider.columnName, AccessProvider.columnCalorie};
-                    Cursor cursor = accessProvider.query(columns, AccessProvider.columnName+" LIKE '%"+s+"%'");
-                    adapter.swapCursor(cursor);
+                    recherche(s);
                     return false;
                 }
-
+                public void recherche(String query){
+                    Cursor cursor = accessProvider.query(
+                            modeAffichage.getColumnsCursor(),
+                            AccessProvider.columnName+" LIKE '%"+query+"%'",
+                            modeAffichage.getOrderElement(),
+                            modeAffichage.getOrderOrientation());
+                    adapter.swapCursor(cursor);
+                }
             });
         }
 
