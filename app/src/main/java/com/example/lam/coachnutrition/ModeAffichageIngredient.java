@@ -14,6 +14,10 @@ public class ModeAffichageIngredient {
     private boolean croissant;
     private Context context;
 
+    public static final boolean DETAIL_DEFAULT = false;
+    public static final boolean NAME_DEFAULT = true;
+    public static final boolean CALORIE_DEFAULT = false;
+    public static final boolean CROISSANT_DEFAULT = true;
 
     public ModeAffichageIngredient(Context context){
         this.context = context;
@@ -29,10 +33,10 @@ public class ModeAffichageIngredient {
     }
 
     public void initBooleanAffichage(){
-        detail = false;
-        name = true;
-        calorie = false;
-        croissant = true;
+        detail = DETAIL_DEFAULT;
+        name = NAME_DEFAULT;
+        calorie = CALORIE_DEFAULT;
+        croissant = CROISSANT_DEFAULT;
     }
 
     public CursorAdapter getAdapter(Cursor query){

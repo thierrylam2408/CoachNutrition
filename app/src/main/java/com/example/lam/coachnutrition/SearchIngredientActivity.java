@@ -2,6 +2,7 @@ package com.example.lam.coachnutrition;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,24 +27,23 @@ public class SearchIngredientActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState == null){
-            modeAffichage = new ModeAffichageIngredient(this);
-        }else{
-            boolean detail = savedInstanceState.getBoolean("detail");
-            boolean name = savedInstanceState.getBoolean("name");
-            boolean calorie = savedInstanceState.getBoolean("calorie");
-            boolean croissant = savedInstanceState.getBoolean("croissant");
-            modeAffichage = new ModeAffichageIngredient(this, detail, name, calorie, croissant);
-        }
+        SharedPreferences pref=getSharedPreferences("pref", MODE_PRIVATE);
+        boolean detail = pref.getBoolean("detail", ModeAffichageIngredient.DETAIL_DEFAULT);
+        boolean name = pref.getBoolean("name", ModeAffichageIngredient.NAME_DEFAULT);
+        boolean calorie = pref.getBoolean("calorie", ModeAffichageIngredient.CALORIE_DEFAULT);
+        boolean croissant = pref.getBoolean("croissant", ModeAffichageIngredient.CROISSANT_DEFAULT);
         setContentView(R.layout.activity_research_ingredient);
+        modeAffichage = new ModeAffichageIngredient(this, detail, name, calorie, croissant);
+
+        adapter = modeAffichage.getAdapter(null);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         listView = (ListView) findViewById(R.id.ingredients_list);
-        accessProvider = new AccessProvider(this);
-        adapter = AdapterProvider.getOneItemAdapter(this, null);
         listView.setAdapter(adapter);
+        accessProvider = new AccessProvider(this);
     }
 
     @Override

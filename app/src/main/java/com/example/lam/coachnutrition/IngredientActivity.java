@@ -3,6 +3,7 @@ package com.example.lam.coachnutrition;
 
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -23,29 +24,16 @@ public class IngredientActivity extends AppCompatActivity implements RangementIn
     private AccessProvider accessProvider;
     private ModeAffichageIngredient modeAffichage;
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putBoolean("detail", modeAffichage.getDetail());
-        outState.putBoolean("name", modeAffichage.getName());
-        outState.putBoolean("calorie", modeAffichage.getCalorie());
-        outState.putBoolean("croissant", modeAffichage.getCroissant());
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState == null){
-            Toast.makeText(IngredientActivity.this, "Init", Toast.LENGTH_SHORT).show();
-            modeAffichage = new ModeAffichageIngredient(this);
-        }else{
-            Toast.makeText(IngredientActivity.this, "Recup", Toast.LENGTH_SHORT).show();
-            boolean detail = savedInstanceState.getBoolean("detail");
-            boolean name = savedInstanceState.getBoolean("name");
-            boolean calorie = savedInstanceState.getBoolean("calorie");
-            boolean croissant = savedInstanceState.getBoolean("croissant");
-            modeAffichage = new ModeAffichageIngredient(this, detail, name, calorie, croissant);
-        }
+        SharedPreferences pref=getSharedPreferences("pref", MODE_PRIVATE);
+        boolean detail = pref.getBoolean("detail", ModeAffichageIngredient.DETAIL_DEFAULT);
+        boolean name = pref.getBoolean("name", ModeAffichageIngredient.NAME_DEFAULT);
+        boolean calorie = pref.getBoolean("calorie", ModeAffichageIngredient.CALORIE_DEFAULT);
+        boolean croissant = pref.getBoolean("croissant", ModeAffichageIngredient.CROISSANT_DEFAULT);
+        modeAffichage = new ModeAffichageIngredient(this, detail, name, calorie, croissant);
         setContentView(R.layout.activity_ingredient);
         accessProvider = new AccessProvider(this);
         listView = (ListView) findViewById(R.id.ingredients_list);
@@ -78,6 +66,11 @@ public class IngredientActivity extends AppCompatActivity implements RangementIn
                 return true;
             case R.id.pannel:
                 modeAffichage.changeDetail();
+                this.getSharedPreferences("pref", MODE_PRIVATE).edit().putBoolean("detail", modeAffichage.getDetail());
+                SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+                SharedPreferences.Editor prefEdit = pref.edit();
+                prefEdit.putBoolean("detail", modeAffichage.getDetail());
+                prefEdit.apply();
                 cursor = accessProvider.query(
                         modeAffichage.getColumnsCursor(),
                         modeAffichage.getOrderElement(),
@@ -110,6 +103,12 @@ public class IngredientActivity extends AppCompatActivity implements RangementIn
     @Override
     public void onDialogInteraction(boolean alphabet, boolean calorie, boolean croissant) {
         modeAffichage.setName(alphabet); modeAffichage.setCalorie(calorie); modeAffichage.setCroissant(croissant);
+        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+        SharedPreferences.Editor prefEdit = pref.edit();
+        prefEdit.putBoolean("name", modeAffichage.getName());
+        prefEdit.putBoolean("calorie", modeAffichage.getCalorie());
+        prefEdit.putBoolean("croissant", modeAffichage.getCroissant());
+        prefEdit.apply();
         refreshAffichage();
 
     }
