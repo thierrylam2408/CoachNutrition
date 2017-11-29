@@ -30,7 +30,7 @@ public class SearchIngredientActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         listView = (ListView) findViewById(R.id.ingredients_list);
         accessProvider = new AccessProvider(this);
-        String[] columns = {AccessProvider.columnId, AccessProvider.columnName, AccessProvider.columnCalorie};
+        //String[] columns = {AccessProvider.columnId, AccessProvider.columnName, AccessProvider.columnCalorie};
         adapter = AdapterProvider.getTwoItemAdapter(this, null);
         listView.setAdapter(adapter);
     }

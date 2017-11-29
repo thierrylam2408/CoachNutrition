@@ -1,11 +1,13 @@
 package com.example.lam.coachnutrition;
 
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
+import android.os.Build;
 import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
 
@@ -41,11 +43,21 @@ public class AccessProvider {
         uri = this.contentResolver.insert(uri, values);
     }
 
-    public Cursor query(String[] select, String where){
+    public Cursor query(String[] select, String where, String elementOrder, String croissant){
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("content").authority(authority).appendPath(tableIngredient);
         Uri uri = builder.build();
-        return this.contentResolver.query(uri, select, where, null, null);
+        if(elementOrder!=null && croissant != null)
+            return this.contentResolver.query(uri, select, where, null,elementOrder+" "+croissant, null);
+        else return this.contentResolver.query(uri, select, where, null, null, null);
+    }
+
+    public Cursor query(String[] select, String elementOrder, String croissant){
+       return query(select, null, elementOrder, croissant);
+    }
+
+    public Cursor query(String[] select, String where){
+        return query(select, where, null, null);
     }
 
     public Cursor query(String[] select){

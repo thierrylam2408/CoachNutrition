@@ -4,9 +4,21 @@
     tools:context="com.example.lam.coachnutrition.MainActivity">
 
     <item
+        android:id="@+id/option"
+        android:icon="@drawable/ic_settings_24dp"
+        android:title="@string/action_settings"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/pannel"
+        android:icon="@drawable/ic_list_24dp"
+        android:title="Affichage"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/research"
         android:icon="@drawable/ic_search_24dp"
-        android:title="@string/action_settings"
+        android:title="Recherche"
         app:showAsAction="always" />
 
 </menu>

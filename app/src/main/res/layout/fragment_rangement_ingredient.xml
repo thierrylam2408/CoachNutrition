@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.lam.coachnutrition.RangementIngredientFragment">
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></Spinner>
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/croissant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Croissant" />
+
+        <RadioButton
+            android:id="@+id/decroissant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Decroissant" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/annuler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Annuler"/>
+
+    <Button
+        android:id="@+id/confirmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Confirmer"
+        />
+
+
+</LinearLayout>
