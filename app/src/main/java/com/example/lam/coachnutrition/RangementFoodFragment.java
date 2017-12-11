@@ -13,20 +13,20 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 
 
-public class RangementIngredientFragment extends DialogFragment {
+public class RangementFoodFragment extends DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private OnDialogInteraction mListener;
 
-    public RangementIngredientFragment() {
+    public RangementFoodFragment() {
         // Required empty public constructor
     }
 
 
     // TODO: Rename and change types and number of parameters
-    public static RangementIngredientFragment newInstance() {
-        RangementIngredientFragment fragment = new RangementIngredientFragment();
+    public static RangementFoodFragment newInstance() {
+        RangementFoodFragment fragment = new RangementFoodFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -52,14 +52,14 @@ public class RangementIngredientFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_rangement_ingredient, container, false);
-        final Spinner spinner = (Spinner)v.findViewById(R.id.spinner);
+        final Spinner spinner = (Spinner) v.findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.type_rangement_ingredient));
         spinner.setAdapter(spinnerAdapter);
-        Button annulerB = (Button)v.findViewById(R.id.annuler);
-        Button confirmerB = (Button)v.findViewById(R.id.confirmer);
-        final RadioButton croissant = (RadioButton)v.findViewById(R.id.croissant);
-        final RadioButton decroissant = (RadioButton)v.findViewById(R.id.decroissant);
+        Button annulerB = (Button) v.findViewById(R.id.annuler);
+        Button confirmerB = (Button) v.findViewById(R.id.confirmer);
+        final RadioButton croissant = (RadioButton) v.findViewById(R.id.croissant);
+        final RadioButton decroissant = (RadioButton) v.findViewById(R.id.decroissant);
 
         annulerB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,11 +71,12 @@ public class RangementIngredientFragment extends DialogFragment {
         confirmerB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean alphabet;boolean calorie;
-                if(spinner.getSelectedItemPosition()==0) {
+                boolean alphabet;
+                boolean calorie;
+                if (spinner.getSelectedItemPosition() == 0) {
                     alphabet = true;
                     calorie = false;
-                }else{
+                } else {
                     alphabet = false;
                     calorie = true;
                 }

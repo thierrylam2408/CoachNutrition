@@ -1,14 +1,10 @@
 package com.example.lam.coachnutrition;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,9 +17,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void goToIngredient(View v){
-        Intent intent = new Intent(this, IngredientActivity.class);
+        Intent intent = new Intent(this, FoodActivity.class);
+        intent.putExtra("edit", true);
+        startActivity(intent);
+    }
+
+    public void goToMeal(View v){
+        Intent intent = new Intent(this, ListMealActivity.class);
         startActivity(intent);
     }
 

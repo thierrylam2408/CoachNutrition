@@ -9,70 +9,70 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="1"
-        tools:context=".IngredientActivity">
+        tools:context=".FoodActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="-1dp"
             android:layout_weight="0"
             android:orientation="horizontal"
-            android:layout_marginTop="-1dp"
             android:weightSum="6">
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/cheese"
+                android:background="@android:color/transparent"
+                android:onClick="selectCremerie"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/cheese" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
-                android:onClick="selectCremerie"/>
+                android:src="@drawable/orange" />
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/orange"
                 android:background="@android:color/transparent"
                 android:padding="5dp"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/salad" />
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/salad"
                 android:background="@android:color/transparent"
                 android:padding="5dp"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/pepper" />
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/pepper"
                 android:background="@android:color/transparent"
                 android:padding="5dp"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/fish" />
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/fish"
                 android:background="@android:color/transparent"
                 android:padding="5dp"
-                android:scaleType="fitCenter"/>
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/steak"
-                android:background="@android:color/transparent"
-                android:padding="5dp"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/steak" />
 
         </LinearLayout>
 
@@ -94,8 +94,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
-        android:src="@drawable/ic_add_24dp"
-        android:onClick="addIngredient"/>
-</RelativeLayout>
+        android:onClick="addIngredient"
+        android:src="@drawable/ic_add_24dp" />
 
+</RelativeLayout>
 

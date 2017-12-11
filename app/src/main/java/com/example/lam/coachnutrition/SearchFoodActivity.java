@@ -17,23 +17,23 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 
-public class SearchIngredientActivity extends AppCompatActivity {
+public class SearchFoodActivity extends AppCompatActivity {
 
     private CursorAdapter adapter;
     private ListView listView;
     private AccessProvider accessProvider;
-    private ModeAffichageIngredient modeAffichage;
+    private DisplayFood modeAffichage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences pref=getSharedPreferences("pref", MODE_PRIVATE);
-        boolean detail = pref.getBoolean("detail", ModeAffichageIngredient.DETAIL_DEFAULT);
-        boolean name = pref.getBoolean("name", ModeAffichageIngredient.NAME_DEFAULT);
-        boolean calorie = pref.getBoolean("calorie", ModeAffichageIngredient.CALORIE_DEFAULT);
-        boolean croissant = pref.getBoolean("croissant", ModeAffichageIngredient.CROISSANT_DEFAULT);
+        boolean detail = pref.getBoolean("detail", DisplayFood.DEFAULT_DETAIL);
+        boolean name = pref.getBoolean("name", DisplayFood.DEFAULT_NAME);
+        boolean calorie = pref.getBoolean("calorie", DisplayFood.DEFAULT_CALORIE);
+        boolean croissant = pref.getBoolean("croissant", DisplayFood.DEFAULT_CROISSANT);
         setContentView(R.layout.activity_research_ingredient);
-        modeAffichage = new ModeAffichageIngredient(this, detail, name, calorie, croissant);
+        modeAffichage = new DisplayFood(this, detail, name, calorie, croissant);
 
         adapter = modeAffichage.getAdapter(null);
 
@@ -85,9 +85,10 @@ public class SearchIngredientActivity extends AppCompatActivity {
                 public void recherche(String query){
                     Cursor cursor = accessProvider.query(
                             modeAffichage.getColumnsCursor(),
-                            AccessProvider.columnName+" LIKE '%"+query+"%'",
+                            BaseInformation.FoodEntry.COLUMN_NAME +" LIKE '%"+query+"%'",
                             modeAffichage.getOrderElement(),
-                            modeAffichage.getOrderOrientation());
+                            modeAffichage.getOrderOrientation(),
+                            BaseInformation.CONTENT_URI_FOOD);
                     adapter.swapCursor(cursor);
                 }
             });
