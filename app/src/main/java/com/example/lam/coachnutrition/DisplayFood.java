@@ -44,8 +44,8 @@ public class DisplayFood {
 
     public CursorAdapter getAdapter(Cursor query) {
         if (detail)
-            return AdapterProvider.getTwoItemAdapter(context, query);
-        else return AdapterProvider.getOneItemAdapter(context, query);
+            return AdapterProvider.getTwoItemAdapterFood(context, query);
+        else return AdapterProvider.getOneItemAdapterFood(context, query);
     }
 
     public String[] getColumnsCursor() {

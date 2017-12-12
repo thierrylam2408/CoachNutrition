@@ -7,7 +7,7 @@ import android.widget.SimpleCursorAdapter;
 
 public class AdapterProvider {
 
-    public static SimpleCursorAdapter getTwoItemAdapter(Context context, Cursor query) {
+    public static SimpleCursorAdapter getTwoItemAdapterFood(Context context, Cursor query) {
         return new SimpleCursorAdapter(context,
                 android.R.layout.simple_list_item_2,
                 query,
@@ -17,7 +17,7 @@ public class AdapterProvider {
                 0);
     }
 
-    public static SimpleCursorAdapter getOneItemAdapter(Context context, Cursor query) {
+    public static SimpleCursorAdapter getOneItemAdapterFood(Context context, Cursor query) {
         return new SimpleCursorAdapter(context,
                 android.R.layout.simple_list_item_1,
                 query,
@@ -25,6 +25,24 @@ public class AdapterProvider {
                 new int[]{android.R.id.text1},
                 0);
     }
+
+    public static SimpleCursorAdapter getTwoItemAdapterMeal(Context context, Cursor query) {
+        return new SimpleCursorAdapter(context,
+                android.R.layout.simple_list_item_1,
+                query,
+                new String[]{BaseInformation.MealEntry.COLUMN_NAME},
+                new int[]{android.R.id.text1},
+                0);
+        /*
+        return new SimpleCursorAdapter(context,
+                android.R.layout.simple_list_item_2,
+                query,
+                new String[]{BaseInformation.MealEntry.COLUMN_NAME,
+                        BaseInformation.MealEntry.COLUMN_WEIGHT},
+                new int[]{android.R.id.text1, android.R.id.text2},
+                0);*/
+    }
+
 
 }
 

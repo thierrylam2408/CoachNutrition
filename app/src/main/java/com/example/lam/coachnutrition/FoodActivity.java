@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 
 public class FoodActivity extends AppCompatActivity
@@ -153,15 +152,10 @@ public class FoodActivity extends AppCompatActivity
 
     private void selectTypeFood(int index){
         String type = getResources().getStringArray(R.array.type_ingredient)[index];
-        modeAffichage.setType(type);
-        Cursor cursor = accessProvider.query(
-                modeAffichage.getColumnsCursor(),
-                BaseInformation.FoodEntry.COLUMN_CATEGORY + " = '" + type+ "'",
-                modeAffichage.getOrderElement(),
-                modeAffichage.getOrderOrientation(),
-                BaseInformation.CONTENT_URI_FOOD
-        );
-        adapter.swapCursor(cursor);
+        if(modeAffichage.getType() != null && modeAffichage.getType().equals(type))
+            modeAffichage.setType(null);
+        else modeAffichage.setType(type);
+        refreshAffichage();
     }
 
     public void addIngredient(View v) {
