@@ -17,7 +17,7 @@
             android:layout_marginTop="-1dp"
             android:layout_weight="0"
             android:orientation="horizontal"
-            android:weightSum="6">
+            android:weightSum="7">
 
             <ImageButton
                 android:layout_width="match_parent"
@@ -34,6 +34,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:onClick="selectFruit"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/orange" />
@@ -43,6 +44,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:onClick="selectLegume"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/salad" />
@@ -52,6 +54,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:onClick="selectEpice"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/pepper" />
@@ -61,6 +64,17 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:onClick="selectFeculent"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/potato" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:onClick="selectPoisson"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/fish" />
@@ -70,6 +84,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:onClick="selectViande"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/steak" />

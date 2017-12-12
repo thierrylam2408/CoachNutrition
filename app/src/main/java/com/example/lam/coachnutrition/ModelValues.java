@@ -8,9 +8,10 @@ import android.content.ContentValues;
 
 import java.util.ArrayList;
 
+import android.content.ContentValues;
+
 public interface ModelValues {
 
     ContentValues getValues();
 
-    ArrayList<ContentValues> getAllValues();
 }

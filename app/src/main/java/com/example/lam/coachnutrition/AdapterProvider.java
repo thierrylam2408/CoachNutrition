@@ -12,7 +12,7 @@ public class AdapterProvider {
                 android.R.layout.simple_list_item_2,
                 query,
                 new String[]{BaseInformation.FoodEntry.COLUMN_NAME,
-                        BaseInformation.FoodEntry.COLUMN_COLORIE},
+                        BaseInformation.FoodEntry.COLUMN_COLORIES},
                 new int[]{android.R.id.text1, android.R.id.text2},
                 0);
     }

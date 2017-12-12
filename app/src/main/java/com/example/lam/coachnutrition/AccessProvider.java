@@ -1,13 +1,12 @@
 package com.example.lam.coachnutrition;
 
+
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 
-import java.util.ArrayList;
 
 public class AccessProvider {
 
@@ -23,20 +22,51 @@ public class AccessProvider {
         this.contentResolver.insert(BaseInformation.CONTENT_URI_FOOD, _food.getValues());
     }
 
-    public void insertFoodCategory(FoodCategory _foodCategory) {
-        ArrayList<ContentValues> values = _foodCategory.getAllValues();
+    public void displaySelectFood(String _name) {
+        String selection = BaseInformation.FoodEntry.COLUMN_NAME + " = ?";
+        String selectionArgs[] = {_name};
+        displayFood(selection, selectionArgs);
+    }
 
-        for (int i = 0; i < values.size(); i++) {
-            this.contentResolver.insert(BaseInformation.CONTENT_URI_FOOD_CATEGORY, values.get(i));
+    public void displayAllFood() {
+        displayFood(null, null);
+    }
+
+    public void displayFood(String selection, String selectionArgs[]) {
+        Cursor cur = this.contentResolver.query(BaseInformation.CONTENT_URI_FOOD, BaseInformation.FoodEntry.columns,
+                selection, selectionArgs, null);
+
+        if (cur.moveToFirst()) {
+
+            do {
+                int id = cur.getInt(cur.getColumnIndex(BaseInformation.FoodEntry._ID));
+
+                Food food = new Food(
+                        cur.getString(cur.getColumnIndex(BaseInformation.FoodEntry.COLUMN_NAME)),
+                        cur.getString(cur.getColumnIndex(BaseInformation.FoodEntry.COLUMN_CATEGORY)),
+                        cur.getFloat(cur.getColumnIndex(BaseInformation.FoodEntry.COLUMN_COLORIES)),
+                        cur.getFloat(cur.getColumnIndex(BaseInformation.FoodEntry.COLUMN_LIPIDES)),
+                        cur.getFloat(cur.getColumnIndex(BaseInformation.FoodEntry.COLUMN_GLUCIDES)),
+                        cur.getFloat(cur.getColumnIndex(BaseInformation.FoodEntry.COLUMN_PROTEINES))
+                );
+
+                food.setId(id);
+            } while (cur.moveToNext());
         }
     }
 
-    public void insertMeal(Meal _meal) {
-        ArrayList<ContentValues> values = _meal.getAllValues();
+    public void insertFoodCategory(FoodCategory _foodCategory) {
+        this.contentResolver.insert(BaseInformation.CONTENT_URI_FOOD_CATEGORY, _foodCategory.getValues());
+    }
 
-        for (int i = 0; i < values.size(); i++) {
-            this.contentResolver.insert(BaseInformation.CONTENT_URI_MEAL, values.get(i));
-        }
+    public void insertMeal(Meal _meal) {
+        this.contentResolver.insert(BaseInformation.CONTENT_URI_MEAL, _meal.getValues());
+    }
+
+    public void deleteFood(String name){
+        String[] args = {name};
+        this.contentResolver.delete(BaseInformation.CONTENT_URI_FOOD,
+                BaseInformation.FoodEntry.COLUMN_NAME + "  = ? ", args);
     }
 
     public Cursor query(String[] select, Uri uri) {
@@ -56,20 +86,6 @@ public class AccessProvider {
             return this.contentResolver.query(uri, select, where, null,
                     elementOrder + " " + croissant);
         else return this.contentResolver.query(uri, select, where, null, null);
-    }
-
-    public void deleteFood(String name){
-        String[] args = {name};
-        this.contentResolver.delete(BaseInformation.CONTENT_URI_FOOD,
-                BaseInformation.FoodEntry.COLUMN_NAME + "  = ? ", args);
-    }
-
-    public int getCodeTypeFood(String typeFood){
-        String[] column = {BaseInformation.FoodCategoryEntry.COLUMN_CODE};
-        Cursor cursor = this.query(column,
-        BaseInformation.FoodCategoryEntry.COLUMN_NAME + " = " +typeFood,
-        BaseInformation.CONTENT_URI_FOOD_CATEGORY);
-        return cursor.getInt(0);
     }
 
     private static Cursor getFakeCursor() {

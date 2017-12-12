@@ -39,7 +39,7 @@ public class FoodActivity extends AppCompatActivity
         boolean name = pref.getBoolean("name", DisplayFood.DEFAULT_NAME);
         boolean calorie = pref.getBoolean("calorie", DisplayFood.DEFAULT_CALORIE);
         boolean croissant = pref.getBoolean("croissant", DisplayFood.DEFAULT_CROISSANT);
-        modeAffichage = new DisplayFood(this, detail, name, calorie, croissant);
+        modeAffichage = new DisplayFood(this, detail, name, calorie, croissant, null);
         edit = getIntent().getBooleanExtra("edit", true);
         setContentView(R.layout.activity_ingredient);
         accessProvider = new AccessProvider(this);
@@ -71,11 +71,20 @@ public class FoodActivity extends AppCompatActivity
     }
 
     private void refreshAffichage() {
-        cursor = accessProvider.query(
-                modeAffichage.getColumnsCursor(),
-                modeAffichage.getOrderElement(),
-                modeAffichage.getOrderOrientation(),
-                BaseInformation.CONTENT_URI_FOOD);
+        if(modeAffichage.getType()!=null){
+            cursor = accessProvider.query(
+                    modeAffichage.getColumnsCursor(),
+                    BaseInformation.FoodEntry.COLUMN_CATEGORY +" = '"+modeAffichage.getType()+"'",
+                    modeAffichage.getOrderElement(),
+                    modeAffichage.getOrderOrientation(),
+                    BaseInformation.CONTENT_URI_FOOD);
+        }else{
+            cursor = accessProvider.query(
+                    modeAffichage.getColumnsCursor(),
+                    modeAffichage.getOrderElement(),
+                    modeAffichage.getOrderOrientation(),
+                    BaseInformation.CONTENT_URI_FOOD);
+        }
         adapter = modeAffichage.getAdapter(cursor);
         listView.setAdapter(adapter);
     }
@@ -93,6 +102,7 @@ public class FoodActivity extends AppCompatActivity
             case R.id.research:
                 Intent intent = new Intent(this, SearchFoodActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("edit", true);
                 startActivity(intent);
                 return true;
             case R.id.pannel:
@@ -103,13 +113,7 @@ public class FoodActivity extends AppCompatActivity
                 SharedPreferences.Editor prefEdit = pref.edit();
                 prefEdit.putBoolean("detail", modeAffichage.getDetail());
                 prefEdit.apply();
-                cursor = accessProvider.query(
-                        modeAffichage.getColumnsCursor(),
-                        modeAffichage.getOrderElement(),
-                        modeAffichage.getOrderOrientation(),
-                        BaseInformation.CONTENT_URI_FOOD);
-                adapter = modeAffichage.getAdapter(cursor);
-                listView.setAdapter(adapter);
+                refreshAffichage();
                 return true;
             case R.id.option:
                 DialogFragment dialog = new RangementFoodFragment().newInstance();
@@ -120,12 +124,42 @@ public class FoodActivity extends AppCompatActivity
     }
 
     public void selectCremerie(View v) {
+        selectTypeFood(0);
+    }
+
+    public void selectFruit(View v){
+        selectTypeFood(1);
+    }
+
+    public void selectLegume(View v){
+        selectTypeFood(2);
+    }
+
+    public void selectEpice(View v){
+        selectTypeFood(3);
+    }
+
+    public void selectFeculent(View v){
+        selectTypeFood(4);
+    }
+
+    public void selectPoisson(View v){
+        selectTypeFood(5);
+    }
+
+    public void selectViande(View v){
+        selectTypeFood(6);
+    }
+
+    private void selectTypeFood(int index){
+        String type = getResources().getStringArray(R.array.type_ingredient)[index];
+        modeAffichage.setType(type);
         Cursor cursor = accessProvider.query(
-            modeAffichage.getColumnsCursor(),
-            BaseInformation.FoodEntry.COLUMN_CATEGORY + " = 0",
-            modeAffichage.getOrderElement(),
-            modeAffichage.getOrderOrientation(),
-            BaseInformation.CONTENT_URI_FOOD
+                modeAffichage.getColumnsCursor(),
+                BaseInformation.FoodEntry.COLUMN_CATEGORY + " = '" + type+ "'",
+                modeAffichage.getOrderElement(),
+                modeAffichage.getOrderOrientation(),
+                BaseInformation.CONTENT_URI_FOOD
         );
         adapter.swapCursor(cursor);
     }

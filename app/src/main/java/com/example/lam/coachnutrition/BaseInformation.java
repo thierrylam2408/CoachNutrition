@@ -3,6 +3,7 @@ package com.example.lam.coachnutrition;
 /**
  * Created by LAM on 11/12/2017.
  */
+
 import android.content.UriMatcher;
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -41,20 +42,25 @@ public class BaseInformation {
         //Columns
         public static final String _ID = "_id";
         public final static String COLUMN_NAME = "name";
-        public final static String COLUMN_COLORIE = "calorie";
         public final static String COLUMN_CATEGORY = "category";
+        public final static String COLUMN_COLORIES = "calories";
+        public final static String COLUMN_LIPIDES = "lipides";
+        public final static String COLUMN_GLUCIDES = "glucides";
+        public final static String COLUMN_PROTEINES = "proteines";
+
+        public final static String columns[] =  { _ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_COLORIES };
+
+        //public final static String columns[] =  { _ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_COLORIES, COLUMN_LIPIDES, COLUMN_GLUCIDES, COLUMN_PROTEINES };
 
     }
 
     public static final class FoodCategoryEntry implements BaseColumns {
 
         //Table name
-        public static final String TABLE_FOOD_CATEGORY = "food_category";
+        public static final String TABLE_FOOD_CATEGORY = "type_food";
 
         //Columns
         public static final String _ID = "_id";
-        public final static String COLUMN_CODE = "code";
-        public final static String COLUMN_CODE_FOOD = "code_food";
         public final static String COLUMN_NAME = "name";
 
     }
@@ -73,4 +79,5 @@ public class BaseInformation {
         public final static String COLUMN_TIMESTAMP = "timestamp";
 
     }
+
 }

@@ -35,9 +35,8 @@ public class NewFoodDialogFragment extends DialogFragment {
                             Spinner foodTypeSpinner = (Spinner)view.findViewById(R.id.type);
                             String name = nameText.getText().toString();
                             Float calorie = Float.parseFloat(calorieText.getText().toString());
-                            String foodType = foodTypeSpinner.getSelectedItem().toString();
-                            //int foodTypeCode = accessProvider.getCodeTypeFood(foodType.toLowerCase());
-                            Food food = new Food(name,calorie, 0);
+                            String type = foodTypeSpinner.getSelectedItem().toString();
+                            Food food = new Food(name, type, calorie);
                             accessProvider.insertFood(food);
                             ((FoodActivity) NewFoodDialogFragment.this.getActivity()).onDialogDismiss();
 

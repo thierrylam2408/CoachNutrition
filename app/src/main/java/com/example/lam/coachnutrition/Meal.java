@@ -5,8 +5,7 @@ package com.example.lam.coachnutrition;
  */
 import android.content.ContentValues;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Meal implements ModelValues {
 
@@ -15,36 +14,27 @@ public class Meal implements ModelValues {
 
     private int id;
     private int code;
-    private ArrayList<Integer> code_food;
     private String name;
+    private String food;
     private float weigth;
-    private Date date;
+    private Timestamp time;
 
-    public Meal(int _code_food, String _name, float _weigth, Date _date) {
+    public Meal(String _name, String _food, float _weigth) {
         id = ++counter_id;
         code = id;
-        (code_food = new ArrayList<>()).add(_code_food);
         name = _name;
+        food = _food;
         weigth = _weigth;
-        date = _date;
+        time = new Timestamp(System.currentTimeMillis());
     }
 
-    public Meal(int _code, int _code_food, String _name, float _weigth, Date _date) {
+    public Meal(int _code, String _name, String _food, float _weigth) {
         id = _code;
         code = _code;
-        (code_food = new ArrayList<>()).add(_code_food);
         name = _name;
+        food = _food;
         weigth = _weigth;
-        date = _date;
-    }
-
-    public Meal(int _code, ArrayList<Integer> _code_food, String _name, float _weigth, Date _date) {
-        id = _code;
-        code = _code;
-        code_food = _code_food;
-        name = _name;
-        weigth = _weigth;
-        date = _date;
+        time = new Timestamp(System.currentTimeMillis());
     }
 
     public int getId() {
@@ -59,16 +49,16 @@ public class Meal implements ModelValues {
         return name;
     }
 
-    public ArrayList<Integer> getCode_food() {
-        return code_food;
+    public String getFood() {
+        return food;
     }
 
     public float getWeigth() {
         return weigth;
     }
 
-    public Date getDate() {
-        return date;
+    public Timestamp getTime() {
+        return time;
     }
 
     @Override
@@ -76,10 +66,10 @@ public class Meal implements ModelValues {
         return "Meal{" +
                 "id=" + id +
                 ", code=" + code +
-                ", code_food=" + code_food +
                 ", name='" + name + '\'' +
+                ", food=" + food +
                 ", weigth=" + weigth +
-                ", date=" + date +
+                ", time=" + time +
                 '}';
     }
 
@@ -88,22 +78,10 @@ public class Meal implements ModelValues {
         ContentValues values = new ContentValues();
 
         values.put(BaseInformation.MealEntry.COLUMN_CODE, code);
-        values.put(BaseInformation.MealEntry.COLUMN_FOOD, code_food.get(++counter_values));
         values.put(BaseInformation.MealEntry.COLUMN_NAME, name);
+        values.put(BaseInformation.MealEntry.COLUMN_FOOD, food);
         values.put(BaseInformation.MealEntry.COLUMN_WEIGHT, weigth);
 
         return values;
-    }
-
-    @Override
-    public ArrayList<ContentValues> getAllValues() {
-        ArrayList<ContentValues> list = new ArrayList<>();
-
-        for (int i = 0; i < code_food.size(); i++) {
-            list.add(getValues());
-        }
-        counter_values = 0;
-
-        return list;
     }
 }

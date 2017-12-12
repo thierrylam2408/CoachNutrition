@@ -19,18 +19,20 @@ public class DisplayFood {
     private boolean name;
     private boolean calorie;
     private boolean croissant;
+    private String type;
 
     public DisplayFood(Context context) {
         this.context = context;
         initBooleanDisplay();
     }
 
-    public DisplayFood(Context context, boolean detail, boolean name, boolean calorie, boolean croissant) {
+    public DisplayFood(Context context, boolean detail, boolean name, boolean calorie, boolean croissant, String type) {
         this.context = context;
         this.detail = detail;
         this.name = name;
         this.calorie = calorie;
         this.croissant = croissant;
+        this.type = type;
     }
 
     public void initBooleanDisplay() {
@@ -48,7 +50,7 @@ public class DisplayFood {
 
     public String[] getColumnsCursor() {
         String[] notDetailedColumns = {BaseInformation.FoodEntry._ID, BaseInformation.FoodEntry.COLUMN_NAME};
-        String[] detailedColumns = {BaseInformation.FoodEntry._ID, BaseInformation.FoodEntry.COLUMN_NAME, BaseInformation.FoodEntry.COLUMN_COLORIE};
+        String[] detailedColumns = {BaseInformation.FoodEntry._ID, BaseInformation.FoodEntry.COLUMN_NAME, BaseInformation.FoodEntry.COLUMN_COLORIES};
         if (!detail)
             return notDetailedColumns;
         else return detailedColumns;
@@ -63,7 +65,7 @@ public class DisplayFood {
     public String getOrderElement() {
         if (name)
             return BaseInformation.FoodEntry.COLUMN_NAME;
-        else return BaseInformation.FoodEntry.COLUMN_COLORIE;
+        else return BaseInformation.FoodEntry.COLUMN_COLORIES;
     }
 
     public void changeDetail() {
@@ -90,11 +92,11 @@ public class DisplayFood {
         return name;
     }
 
-    public boolean getCalorie() {
-        return calorie;
-    }
+    public boolean getCalorie() { return calorie; }
 
-    public boolean getCroissant() {
-        return croissant;
-    }
+    public boolean getCroissant() { return croissant; }
+
+    public String getType() { return type; }
+
+    public void setType(String type){ this.type = type; }
 }
