@@ -28,19 +28,12 @@ public class AdapterProvider {
 
     public static SimpleCursorAdapter getTwoItemAdapterMeal(Context context, Cursor query) {
         return new SimpleCursorAdapter(context,
-                android.R.layout.simple_list_item_1,
-                query,
-                new String[]{BaseInformation.MealEntry.COLUMN_NAME},
-                new int[]{android.R.id.text1},
-                0);
-        /*
-        return new SimpleCursorAdapter(context,
                 android.R.layout.simple_list_item_2,
                 query,
                 new String[]{BaseInformation.MealEntry.COLUMN_NAME,
-                        BaseInformation.MealEntry.COLUMN_WEIGHT},
+                        BaseInformation.MealEntry.COLUMN_TIMESTAMP},
                 new int[]{android.R.id.text1, android.R.id.text2},
-                0);*/
+                0);
     }
 
 

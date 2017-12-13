@@ -59,9 +59,7 @@ public class CreateMealFragment extends DialogFragment {
         Button confirmerB = (Button) v.findViewById(R.id.confirmer);
 
         final TimePicker timePicker = (TimePicker) v.findViewById(R.id.tp);
-
         final EditText editText = (EditText) v.findViewById(R.id.name);
-        final String nom = editText.getText().toString();
 
         annulerB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,11 +72,10 @@ public class CreateMealFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {
+                String nom = editText.getText().toString();
                 int hours = timePicker.getHour();
                 int mins = timePicker.getMinute();
-                final String selectedTime = hours+":"+mins;
-                Toast.makeText(getActivity(), selectedTime , Toast.LENGTH_SHORT).show();
-
+                onButtonPressed(nom, hours, mins);
                 dismiss();
             }
         });
@@ -86,9 +83,9 @@ public class CreateMealFragment extends DialogFragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(String nom, int hours, int mins) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction(nom, hours, mins);
         }
     }
 
@@ -121,6 +118,6 @@ public class CreateMealFragment extends DialogFragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(String nom, int hours, int mins);
     }
 }

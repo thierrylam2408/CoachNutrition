@@ -10,7 +10,10 @@ import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Calendar;
 
 public class ListMealActivity extends AppCompatActivity
@@ -37,6 +40,8 @@ public class ListMealActivity extends AppCompatActivity
         date = (TextView) findViewById(R.id.day);
         accessProvider = new AccessProvider(this);
         cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
         refreshDate();
         refreshListMeal();
     }
@@ -45,7 +50,8 @@ public class ListMealActivity extends AppCompatActivity
         String[] columns = {BaseInformation.MealEntry._ID, BaseInformation.MealEntry.COLUMN_NAME};
         cursor = accessProvider.query(
                 columns,
-                BaseInformation.MealEntry.COLUMN_TIMESTAMP + " < '" + String.format("%1$tA %1$tb %1$td %1$tY", cal) + "'",
+                //cal.getTimeInMillis() + " <= " + BaseInformation.MealEntry.COLUMN_TIMESTAMP +
+                 //       " and  "+ (cal.getTimeInMillis()+3600000F) + " >= "+ BaseInformation.MealEntry.COLUMN_TIMESTAMP,
                 BaseInformation.MealEntry.COLUMN_TIMESTAMP,
                 "ASC",
                 BaseInformation.CONTENT_URI_MEAL);
@@ -91,7 +97,14 @@ public class ListMealActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
+    public void onFragmentInteraction(String nom, int hours, int mins) {
+        cal.set(Calendar.HOUR_OF_DAY, hours);
+        cal.set(Calendar.MINUTE, mins);
+        Timestamp tp = new Timestamp(cal.getTimeInMillis());
+        Meal meal = new Meal(nom, tp);
+        accessProvider.insertMeal(meal);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        refreshListMeal();
     }
 }

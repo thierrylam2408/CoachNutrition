@@ -19,6 +19,24 @@ public class Meal implements ModelValues {
     private float weigth;
     private Timestamp time;
 
+    public Meal(String name, Timestamp time){
+        id = ++counter_id;
+        code = id;
+        this.name = name;
+        food = "None";
+        weigth = 0;
+        this.time = time;
+    }
+
+    public Meal(int code, String food, float weigth){
+        id = ++counter_id;
+        this.code = code;
+        this.name = "None";
+        this.food = food;
+        this.weigth = weigth;
+        time = new Timestamp(System.currentTimeMillis());
+    }
+
     public Meal(String _name, String _food, float _weigth) {
         id = ++counter_id;
         code = id;
