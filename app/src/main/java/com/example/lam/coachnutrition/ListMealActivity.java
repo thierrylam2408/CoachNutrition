@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class ListMealActivity extends AppCompatActivity
@@ -42,16 +43,23 @@ public class ListMealActivity extends AppCompatActivity
         cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
         refreshDate();
         refreshListMeal();
     }
 
     private void refreshListMeal(){
-        String[] columns = {BaseInformation.MealEntry._ID, BaseInformation.MealEntry.COLUMN_NAME};
+        String[] columns = {BaseInformation.MealEntry._ID, BaseInformation.MealEntry.COLUMN_NAME,
+                BaseInformation.MealEntry.COLUMN_TIMESTAMP};
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+        String currentDay = format.format(cal.getTime());
+        cal.add(Calendar.DAY_OF_YEAR,1);
+        String nextDay = format.format(cal.getTime());
+        cal.add(Calendar.DAY_OF_YEAR,-1);
         cursor = accessProvider.query(
                 columns,
-                //cal.getTimeInMillis() + " <= " + BaseInformation.MealEntry.COLUMN_TIMESTAMP +
-                 //       " and  "+ (cal.getTimeInMillis()+3600000F) + " >= "+ BaseInformation.MealEntry.COLUMN_TIMESTAMP,
+                BaseInformation.MealEntry.COLUMN_TIMESTAMP + " BETWEEN '" +
+                        currentDay+"' AND '"+ nextDay + "'",
                 BaseInformation.MealEntry.COLUMN_TIMESTAMP,
                 "ASC",
                 BaseInformation.CONTENT_URI_MEAL);
@@ -77,6 +85,7 @@ public class ListMealActivity extends AppCompatActivity
             next.setImageResource(R.drawable.ic_chevron_right_24dp);
         }
         date.setText(String.format("%1$tA %1$tb %1$td %1$tY", cal));
+        refreshListMeal();
     }
 
     public void ajouterRepas(View v){
