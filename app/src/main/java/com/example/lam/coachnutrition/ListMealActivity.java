@@ -55,7 +55,7 @@ public class ListMealActivity extends AppCompatActivity
         String currentDay = format.format(cal.getTime());
         cal.add(Calendar.DAY_OF_YEAR,1);
         String nextDay = format.format(cal.getTime());
-        cal.add(Calendar.DAY_OF_YEAR,-1);
+        cal.add(Calendar.DAY_OF_YEAR, -1);
         cursor = accessProvider.query(
                 columns,
                 BaseInformation.MealEntry.COLUMN_TIMESTAMP + " BETWEEN '" +
@@ -109,6 +109,7 @@ public class ListMealActivity extends AppCompatActivity
     public void onFragmentInteraction(String nom, int hours, int mins) {
         cal.set(Calendar.HOUR_OF_DAY, hours);
         cal.set(Calendar.MINUTE, mins);
+        Toast.makeText(ListMealActivity.this, ""+cal.get(Calendar.DAY_OF_YEAR), Toast.LENGTH_SHORT).show();
         Timestamp tp = new Timestamp(cal.getTimeInMillis());
         Meal meal = new Meal(nom, tp);
         accessProvider.insertMeal(meal);

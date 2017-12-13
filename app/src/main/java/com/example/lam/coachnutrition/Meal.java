@@ -6,6 +6,7 @@ package com.example.lam.coachnutrition;
 import android.content.ContentValues;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Meal implements ModelValues {
 
@@ -94,12 +95,13 @@ public class Meal implements ModelValues {
     @Override
     public ContentValues getValues() {
         ContentValues values = new ContentValues();
-
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String date = format.format(time.getTime());
         values.put(BaseInformation.MealEntry.COLUMN_CODE, code);
         values.put(BaseInformation.MealEntry.COLUMN_NAME, name);
         values.put(BaseInformation.MealEntry.COLUMN_FOOD, food);
         values.put(BaseInformation.MealEntry.COLUMN_WEIGHT, weigth);
-
+        values.put(BaseInformation.MealEntry.COLUMN_TIMESTAMP, date);
         return values;
     }
 }
