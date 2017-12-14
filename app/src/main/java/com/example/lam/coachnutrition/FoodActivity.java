@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +17,10 @@ import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 public class FoodActivity extends AppCompatActivity
@@ -27,7 +31,7 @@ public class FoodActivity extends AppCompatActivity
     private ListView listView;
     private AccessProvider accessProvider;
     private DisplayFood modeAffichage;
-    private boolean edit;
+    private int codeMeal;
 
 
     @Override
@@ -39,16 +43,16 @@ public class FoodActivity extends AppCompatActivity
         boolean calorie = pref.getBoolean("calorie", DisplayFood.DEFAULT_CALORIE);
         boolean croissant = pref.getBoolean("croissant", DisplayFood.DEFAULT_CROISSANT);
         modeAffichage = new DisplayFood(this, detail, name, calorie, croissant, null);
-        edit = getIntent().getBooleanExtra("edit", true);
+        codeMeal = getIntent().getIntExtra("codeMeal", -1);
         setContentView(R.layout.activity_ingredient);
         accessProvider = new AccessProvider(this);
         listView = (ListView) findViewById(R.id.ingredients_list);
-        if(edit){
+        if(codeMeal == -1){
             listView.setOnItemClickListener(new ListView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> a, View v, int i, long l) {
                     Cursor cursor = (Cursor) adapter.getItem(i);
-                    final String nom = cursor.getString(BaseInformation.FOOD_CODE);
+                    final String nom = cursor.getString(cursor.getColumnIndex(BaseInformation.FoodEntry.COLUMN_NAME));
                     AlertDialog.Builder builder = new AlertDialog.Builder(FoodActivity.this);
                     builder.setMessage("Veux tu supprimer " + nom + " ? ")
                             .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
@@ -64,7 +68,35 @@ public class FoodActivity extends AppCompatActivity
             });
         }
         else{
-
+            listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> a, View v, int i, long l) {
+                    Cursor cursor = (Cursor) adapter.getItem(i);
+                    final String nom = cursor.getString(cursor.getColumnIndex(BaseInformation.FoodEntry.COLUMN_NAME));
+                    final EditText input = new EditText(FoodActivity.this);
+                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT);
+                    input.setLayoutParams(lp);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(FoodActivity.this);
+                    builder.setMessage("Quelle quantité de " + nom + " veux tu?")
+                            .setView(input)
+                            .setPositiveButton("Enregistré", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    float quantite = Float.parseFloat(input.getText().toString());
+                                    Meal meal = new Meal(codeMeal, nom, quantite);
+                                    accessProvider.insertMeal(meal);
+                                    Intent intent = new Intent(getApplication(), MealActivity.class);
+                                    intent.putExtra("codeMeal", codeMeal);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("Annuler", null)
+                            .show();
+                }
+            });
         }
         refreshAffichage();
     }
@@ -101,7 +133,7 @@ public class FoodActivity extends AppCompatActivity
             case R.id.research:
                 Intent intent = new Intent(this, SearchFoodActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                intent.putExtra("edit", true);
+                intent.putExtra("codeMeal", codeMeal);
                 startActivity(intent);
                 return true;
             case R.id.pannel:

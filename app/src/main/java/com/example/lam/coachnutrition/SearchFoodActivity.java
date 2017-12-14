@@ -4,17 +4,21 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -27,7 +31,7 @@ public class SearchFoodActivity extends AppCompatActivity {
     private ListView listView;
     private AccessProvider accessProvider;
     private DisplayFood modeAffichage;
-    private boolean edit;
+    private int codeMeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +53,8 @@ public class SearchFoodActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.ingredients_list);
         listView.setAdapter(adapter);
         accessProvider = new AccessProvider(this);
-        edit = getIntent().getBooleanExtra("edit", true);
-        if(edit){
+        codeMeal = getIntent().getIntExtra("codeMeal", -1);
+        if(codeMeal == -1){
             listView.setOnItemClickListener(new ListView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> a, View v, int i, long l) {
@@ -71,7 +75,35 @@ public class SearchFoodActivity extends AppCompatActivity {
             });
         }
         else{
-
+            listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> a, View v, int i, long l) {
+                    Cursor cursor = (Cursor) adapter.getItem(i);
+                    final String nom = cursor.getString(cursor.getColumnIndex(BaseInformation.FoodEntry.COLUMN_NAME));
+                    final EditText input = new EditText(SearchFoodActivity.this);
+                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT);
+                    input.setLayoutParams(lp);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SearchFoodActivity.this);
+                    builder.setMessage("Quelle quantité de " + nom + " veux tu?")
+                            .setView(input)
+                            .setPositiveButton("Enregistré", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    float quantite = Float.parseFloat(input.getText().toString());
+                                    Meal meal = new Meal(codeMeal, nom, quantite);
+                                    accessProvider.insertMeal(meal);
+                                    Intent intent = new Intent(getApplication(), MealActivity.class);
+                                    intent.putExtra("codeMeal", codeMeal);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("Annuler", null)
+                            .show();
+                }
+            });
         }
     }
 

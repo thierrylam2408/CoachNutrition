@@ -1,18 +1,17 @@
 package com.example.lam.coachnutrition;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -46,10 +45,23 @@ public class ListMealActivity extends AppCompatActivity
         cal.set(Calendar.SECOND, 0);
         refreshDate();
         refreshListMeal();
+
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int i, long l) {
+                Cursor cursor = (Cursor) adapter.getItem(i);
+                int code = cursor.getInt(cursor.getColumnIndex(BaseInformation.MealEntry.COLUMN_CODE));
+                Intent intent = new Intent(getApplication(), MealActivity.class);
+                intent.putExtra("codeMeal", code);
+                startActivity(intent);
+            }
+        });
     }
 
     private void refreshListMeal(){
-        String[] columns = {BaseInformation.MealEntry._ID, BaseInformation.MealEntry.COLUMN_NAME,
+        String[] columns = {BaseInformation.MealEntry._ID,
+                BaseInformation.MealEntry.COLUMN_CODE,
+                BaseInformation.MealEntry.COLUMN_NAME,
                 BaseInformation.MealEntry.COLUMN_TIMESTAMP};
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
         String currentDay = format.format(cal.getTime());
@@ -58,12 +70,13 @@ public class ListMealActivity extends AppCompatActivity
         cal.add(Calendar.DAY_OF_YEAR, -1);
         cursor = accessProvider.query(
                 columns,
+                BaseInformation.MealEntry.COLUMN_NAME + " != 'None' and "+
                 BaseInformation.MealEntry.COLUMN_TIMESTAMP + " BETWEEN '" +
                         currentDay+"' AND '"+ nextDay + "'",
                 BaseInformation.MealEntry.COLUMN_TIMESTAMP,
                 "ASC",
                 BaseInformation.CONTENT_URI_MEAL);
-        adapter = AdapterProvider.getTwoItemAdapterMeal(this, cursor);
+        adapter = AdapterProvider.getTwoItemAdapterListMeal(this, cursor);
         listView.setAdapter(adapter);
     }
 
@@ -109,7 +122,6 @@ public class ListMealActivity extends AppCompatActivity
     public void onFragmentInteraction(String nom, int hours, int mins) {
         cal.set(Calendar.HOUR_OF_DAY, hours);
         cal.set(Calendar.MINUTE, mins);
-        Toast.makeText(ListMealActivity.this, ""+cal.get(Calendar.DAY_OF_YEAR), Toast.LENGTH_SHORT).show();
         Timestamp tp = new Timestamp(cal.getTimeInMillis());
         Meal meal = new Meal(nom, tp);
         accessProvider.insertMeal(meal);

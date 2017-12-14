@@ -26,7 +26,7 @@ public class AdapterProvider {
                 0);
     }
 
-    public static SimpleCursorAdapter getTwoItemAdapterMeal(Context context, Cursor query) {
+    public static SimpleCursorAdapter getTwoItemAdapterListMeal(Context context, Cursor query) {
         return new SimpleCursorAdapter(context,
                 android.R.layout.simple_list_item_2,
                 query,
@@ -36,6 +36,15 @@ public class AdapterProvider {
                 0);
     }
 
+    public static SimpleCursorAdapter getTwoItemAdapterMeal(Context context, Cursor query) {
+        return new SimpleCursorAdapter(context,
+                android.R.layout.simple_list_item_2,
+                query,
+                new String[]{BaseInformation.MealEntry.COLUMN_FOOD,
+                        BaseInformation.MealEntry.COLUMN_WEIGHT},
+                new int[]{android.R.id.text1, android.R.id.text2},
+                0);
+    }
 
 }
 

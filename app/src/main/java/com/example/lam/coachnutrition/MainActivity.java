@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToIngredient(View v){
         Intent intent = new Intent(this, FoodActivity.class);
-        intent.putExtra("edit", true);
         startActivity(intent);
     }
 
