@@ -89,7 +89,7 @@ public class SearchFoodActivity extends AppCompatActivity {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SearchFoodActivity.this);
                     builder.setMessage("Quelle quantité de " + nom + " veux tu?")
                             .setView(input)
-                            .setPositiveButton("Enregistré", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Enregistrer", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     float quantite = Float.parseFloat(input.getText().toString());

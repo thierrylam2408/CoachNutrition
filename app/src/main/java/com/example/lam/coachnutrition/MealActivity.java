@@ -62,4 +62,8 @@ public class MealActivity extends AppCompatActivity {
         intent.putExtra("codeMeal", codeMeal);
         startActivity(intent);
     }
+
+    public void supprimerRepas(View v){
+
+    }
 }
