@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-
     public void goToIngredient(View v){
         Intent intent = new Intent(this, FoodActivity.class);
         startActivity(intent);
@@ -24,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToMeal(View v){
         Intent intent = new Intent(this, ListMealActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToGraph(View v){
+        Intent intent = new Intent(this, GraphActivity.class);
         startActivity(intent);
     }
 

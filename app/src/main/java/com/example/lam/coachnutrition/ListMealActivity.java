@@ -66,23 +66,7 @@ public class ListMealActivity extends AppCompatActivity
     }
 
     private void refreshListMeal(){
-        String[] columns = {BaseInformation.MealEntry._ID,
-                BaseInformation.MealEntry.COLUMN_CODE,
-                BaseInformation.MealEntry.COLUMN_NAME,
-                BaseInformation.MealEntry.COLUMN_TIMESTAMP};
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-        String currentDay = format.format(cal.getTime());
-        cal.add(Calendar.DAY_OF_YEAR,1);
-        String nextDay = format.format(cal.getTime());
-        cal.add(Calendar.DAY_OF_YEAR, -1);
-        cursor = accessProvider.query(
-                columns,
-                BaseInformation.MealEntry.COLUMN_NAME + " != 'None' and "+
-                BaseInformation.MealEntry.COLUMN_TIMESTAMP + " BETWEEN '" +
-                        currentDay+"' AND '"+ nextDay + "'",
-                BaseInformation.MealEntry.COLUMN_TIMESTAMP,
-                "ASC",
-                BaseInformation.CONTENT_URI_MEAL);
+        cursor = accessProvider.getMealByDay(cal);
         adapter = AdapterProvider.getTwoItemAdapterListMeal(this, cursor);
         listView.setAdapter(adapter);
     }

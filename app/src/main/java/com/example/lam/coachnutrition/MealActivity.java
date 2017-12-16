@@ -61,7 +61,7 @@ public class MealActivity extends AppCompatActivity {
 
     private void refresh(){
         cursor = getMeal();
-        titre.setText(cursor.getString(cursor.getColumnIndex(BaseInformation.MealEntry.COLUMN_NAME)));
+        titre.setText(cursor.getString(cursor.getColumnIndex(BaseInformation.MealEntry.COLUMN_NAME)) +" "+accessProvider.countCaloriesByMeal(codeMeal) );
         cursor = getIngredients();
         adapter = AdapterProvider.getTwoItemAdapterMeal(this, cursor);
         listView.setAdapter(adapter);

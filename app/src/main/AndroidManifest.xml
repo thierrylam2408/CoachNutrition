@@ -21,7 +21,8 @@
         <activity android:name=".FoodActivity" />
         <activity android:name=".SearchFoodActivity" />
         <activity android:name=".ListMealActivity" />
-        <activity android:name=".MealActivity"></activity>
+        <activity android:name=".MealActivity" />
+        <activity android:name=".GraphActivity"></activity>
     </application>
 
 </manifest>
