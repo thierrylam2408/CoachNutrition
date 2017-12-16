@@ -11,6 +11,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -123,7 +124,12 @@ public class ListMealActivity extends AppCompatActivity
         cal.set(Calendar.HOUR_OF_DAY, hours);
         cal.set(Calendar.MINUTE, mins);
         Timestamp tp = new Timestamp(cal.getTimeInMillis());
-        Meal meal = new Meal(nom, tp);
+        Cursor c = accessProvider.query(
+                new String[]{"MAX("+BaseInformation.MealEntry.COLUMN_CODE+")"},
+                BaseInformation.CONTENT_URI_MEAL);
+        c.moveToFirst();
+        int code = c.getInt(0)+1;
+        Meal meal = new Meal(code ,nom, tp);
         accessProvider.insertMeal(meal);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);

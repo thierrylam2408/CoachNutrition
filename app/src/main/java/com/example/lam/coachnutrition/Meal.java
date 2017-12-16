@@ -10,8 +10,6 @@ import java.text.SimpleDateFormat;
 
 public class Meal implements ModelValues {
 
-    private static int counter_id = 0;
-    private static int counter_values = 0;
 
     private int id;
     private int code;
@@ -20,9 +18,8 @@ public class Meal implements ModelValues {
     private float weigth;
     private Timestamp time;
 
-    public Meal(String name, Timestamp time){
-        id = ++counter_id;
-        code = id;
+    public Meal(int code, String name, Timestamp time){
+        this.code = code;
         this.name = name;
         food = "None";
         weigth = 0;
@@ -30,7 +27,6 @@ public class Meal implements ModelValues {
     }
 
     public Meal(int code, String food, float weigth){
-        id = ++counter_id;
         this.code = code;
         this.name = "None";
         this.food = food;
@@ -38,23 +34,7 @@ public class Meal implements ModelValues {
         time = new Timestamp(System.currentTimeMillis());
     }
 
-    public Meal(String _name, String _food, float _weigth) {
-        id = ++counter_id;
-        code = id;
-        name = _name;
-        food = _food;
-        weigth = _weigth;
-        time = new Timestamp(System.currentTimeMillis());
-    }
 
-    public Meal(int _code, String _name, String _food, float _weigth) {
-        id = _code;
-        code = _code;
-        name = _name;
-        food = _food;
-        weigth = _weigth;
-        time = new Timestamp(System.currentTimeMillis());
-    }
 
     public int getId() {
         return id;

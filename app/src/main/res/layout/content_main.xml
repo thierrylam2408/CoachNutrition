@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:onClick="goToMeal"
-        android:text="Repas"/>
+        android:text="Programme"/>
 
     <Button
         android:layout_width="350dp"

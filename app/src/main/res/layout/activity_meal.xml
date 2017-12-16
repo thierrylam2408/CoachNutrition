@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ajouterIngredient"
-        android:text="Ajouter Ingredient"
+        android:text="Ajouter un ingredient"
         android:onClick="ajouterIngredient"/>
 
     <ListView
