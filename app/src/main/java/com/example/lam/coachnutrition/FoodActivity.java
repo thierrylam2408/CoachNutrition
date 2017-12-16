@@ -33,6 +33,11 @@ public class FoodActivity extends AppCompatActivity
     private DisplayFood modeAffichage;
     private int codeMeal;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshAffichage();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +90,16 @@ public class FoodActivity extends AppCompatActivity
                             .setPositiveButton("Enregistrer", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    float quantite = Float.parseFloat(input.getText().toString());
-                                    Meal meal = new Meal(codeMeal, nom, quantite);
-                                    accessProvider.insertMeal(meal);
-                                    Intent intent = new Intent(getApplication(), MealActivity.class);
-                                    intent.putExtra("codeMeal", codeMeal);
-                                    startActivity(intent);
+                                    if (input.getText().toString().trim().equals("")) {
+                                        Toast.makeText(getApplication(), "La quantite est necessaire!", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        float quantite = Float.parseFloat(input.getText().toString());
+                                        Meal meal = new Meal(codeMeal, nom, quantite);
+                                        accessProvider.insertMeal(meal);
+                                        Intent intent = new Intent(getApplication(), MealActivity.class);
+                                        intent.putExtra("codeMeal", codeMeal);
+                                        startActivity(intent);
+                                    }
                                 }
                             })
                             .setNegativeButton("Annuler", null)

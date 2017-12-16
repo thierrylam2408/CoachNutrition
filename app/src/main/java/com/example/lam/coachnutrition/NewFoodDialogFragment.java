@@ -32,14 +32,18 @@ public class NewFoodDialogFragment extends DialogFragment {
                         public void onClick(DialogInterface dialog, int id) {
                             EditText nameText = (EditText)view.findViewById(R.id.name);
                             EditText calorieText = (EditText)view.findViewById(R.id.calorie);
-                            Spinner foodTypeSpinner = (Spinner)view.findViewById(R.id.type);
-                            String name = nameText.getText().toString();
-                            Float calorie = Float.parseFloat(calorieText.getText().toString());
-                            String type = foodTypeSpinner.getSelectedItem().toString();
-                            Food food = new Food(name, type, calorie);
-                            accessProvider.insertFood(food);
-                            ((FoodActivity) NewFoodDialogFragment.this.getActivity()).onDialogDismiss();
-
+                            if(nameText.getText().toString().trim().equals("") || calorieText.getText().toString().equals("")){
+                                Toast.makeText(getActivity(), "Les champs ne sont pas remplis", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Spinner foodTypeSpinner = (Spinner)view.findViewById(R.id.type);
+                                String name = nameText.getText().toString();
+                                Float calorie = Float.parseFloat(calorieText.getText().toString());
+                                String type = foodTypeSpinner.getSelectedItem().toString();
+                                Food food = new Food(name, type, calorie);
+                                accessProvider.insertFood(food);
+                                ((FoodActivity) NewFoodDialogFragment.this.getActivity()).onDialogDismiss();
+                            }
                         }
                     })
                     .setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {

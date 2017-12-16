@@ -19,9 +19,7 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 
@@ -32,6 +30,7 @@ public class SearchFoodActivity extends AppCompatActivity {
     private AccessProvider accessProvider;
     private DisplayFood modeAffichage;
     private int codeMeal;
+    private String requete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,8 @@ public class SearchFoodActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     accessProvider.deleteFood(nom);
-                                    finish();
+                                    recherche(requete);
+                                    //finish();
                                 }
                             })
                             .setNegativeButton("Non", null)
@@ -92,12 +92,16 @@ public class SearchFoodActivity extends AppCompatActivity {
                             .setPositiveButton("Enregistrer", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    float quantite = Float.parseFloat(input.getText().toString());
-                                    Meal meal = new Meal(codeMeal, nom, quantite);
-                                    accessProvider.insertMeal(meal);
-                                    Intent intent = new Intent(getApplication(), MealActivity.class);
-                                    intent.putExtra("codeMeal", codeMeal);
-                                    startActivity(intent);
+                                    if (input.getText().toString().trim().equals("")) {
+                                        Toast.makeText(getApplication(), "La quantite est necessaire!", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        float quantite = Float.parseFloat(input.getText().toString());
+                                        Meal meal = new Meal(codeMeal, nom, quantite);
+                                        accessProvider.insertMeal(meal);
+                                        Intent intent = new Intent(getApplication(), MealActivity.class);
+                                        intent.putExtra("codeMeal", codeMeal);
+                                        startActivity(intent);
+                                    }
                                 }
                             })
                             .setNegativeButton("Annuler", null)
@@ -143,20 +147,23 @@ public class SearchFoodActivity extends AppCompatActivity {
                     recherche(s);
                     return false;
                 }
-                public void recherche(String query){
-                    Cursor cursor = accessProvider.query(
-                            modeAffichage.getColumnsCursor(),
-                            BaseInformation.FoodEntry.COLUMN_NAME +" LIKE '%"+query+"%'",
-                            modeAffichage.getOrderElement(),
-                            modeAffichage.getOrderOrientation(),
-                            BaseInformation.CONTENT_URI_FOOD);
-                    adapter.swapCursor(cursor);
-                }
+
             });
         }
 
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void recherche(String query){
+        requete = query;
+        Cursor cursor = accessProvider.query(
+                modeAffichage.getColumnsCursor(),
+                BaseInformation.FoodEntry.COLUMN_NAME + " LIKE '%" + query + "%'",
+                modeAffichage.getOrderElement(),
+                modeAffichage.getOrderOrientation(),
+                BaseInformation.CONTENT_URI_FOOD);
+        adapter.swapCursor(cursor);
     }
 
     @Override

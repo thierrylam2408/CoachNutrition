@@ -75,8 +75,12 @@ public class CreateMealFragment extends DialogFragment {
                 String nom = editText.getText().toString();
                 int hours = timePicker.getHour();
                 int mins = timePicker.getMinute();
-                onButtonPressed(nom, hours, mins);
-                dismiss();
+                if(nom.trim().equals("")){
+                    editText.setError("Le nom est necessaire!");
+                }else{
+                    onButtonPressed(nom, hours, mins);
+                    dismiss();
+                }
             }
         });
         return v;
