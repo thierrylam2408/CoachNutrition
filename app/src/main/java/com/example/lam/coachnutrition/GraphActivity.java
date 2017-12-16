@@ -37,7 +37,7 @@ public class GraphActivity extends AppCompatActivity {
         for (int i=0; i<7; i++){
             Float calories = accessProvider.countCalories(cal);
             datas[i] = new DataPoint(i,calories);
-            cal.set(Calendar.DAY_OF_YEAR, 1);
+            cal.add(Calendar.DAY_OF_YEAR, 1);
         }
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(datas);
         graph.addSeries(series);
