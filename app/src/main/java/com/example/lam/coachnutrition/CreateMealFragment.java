@@ -59,6 +59,7 @@ public class CreateMealFragment extends DialogFragment {
         Button confirmerB = (Button) v.findViewById(R.id.confirmer);
 
         final TimePicker timePicker = (TimePicker) v.findViewById(R.id.tp);
+        timePicker.setIs24HourView(true);
         final EditText editText = (EditText) v.findViewById(R.id.name);
 
         annulerB.setOnClickListener(new View.OnClickListener() {

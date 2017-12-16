@@ -2,6 +2,7 @@ package com.example.lam.coachnutrition;
 
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -60,7 +61,22 @@ public class AccessProvider {
     }
 
     public void insertMeal(Meal _meal) {
-        this.contentResolver.insert(BaseInformation.CONTENT_URI_MEAL, _meal.getValues());
+        String[] args = {BaseInformation.MealEntry._ID, BaseInformation.MealEntry.COLUMN_CODE,
+                BaseInformation.MealEntry.COLUMN_FOOD, BaseInformation.MealEntry.COLUMN_WEIGHT};
+        String where = BaseInformation.MealEntry.COLUMN_CODE + " = "+_meal.getCode() + " and "+
+                BaseInformation.MealEntry.COLUMN_FOOD + " = '"+_meal.getFood()+"'";
+        Cursor cursor = this.query(args, where, BaseInformation.CONTENT_URI_MEAL);
+        if(cursor.moveToFirst()){
+            ContentValues values = new ContentValues();
+            values.put(BaseInformation.MealEntry.COLUMN_WEIGHT,
+                    _meal.getWeigth() + cursor.getFloat(cursor.getColumnIndex(BaseInformation.MealEntry.COLUMN_WEIGHT)));
+            where = BaseInformation.MealEntry.COLUMN_CODE + " = ? and "+
+                    BaseInformation.MealEntry.COLUMN_FOOD + " = ?";
+            String[] selectionArgs = {String.valueOf(_meal.getCode()), _meal.getFood()};
+            this.contentResolver.update(BaseInformation.CONTENT_URI_MEAL, values, where, selectionArgs);
+        }
+        else
+            this.contentResolver.insert(BaseInformation.CONTENT_URI_MEAL, _meal.getValues());
     }
 
     public void deleteFood(String name){
@@ -69,6 +85,19 @@ public class AccessProvider {
                 BaseInformation.FoodEntry.COLUMN_NAME + "  = ? ", args);
         this.contentResolver.delete(BaseInformation.CONTENT_URI_MEAL,
                 BaseInformation.MealEntry.COLUMN_FOOD + "  = ? ", args);
+    }
+
+    public void deleteFood(String name, int codeMeal){
+        String[] args = {name, String.valueOf(codeMeal)};
+        this.contentResolver.delete(BaseInformation.CONTENT_URI_MEAL,
+                BaseInformation.MealEntry.COLUMN_FOOD + "  = ? and "+
+                BaseInformation.MealEntry.COLUMN_CODE + " = ? ", args);
+    }
+
+    public void deleteMeal(int codeMeal){
+        String[] args = {String.valueOf(codeMeal)};
+        this.contentResolver.delete(BaseInformation.CONTENT_URI_MEAL,
+                BaseInformation.MealEntry.COLUMN_CODE + " = ? ", args);
     }
 
     public Cursor query(String[] select, Uri uri) {

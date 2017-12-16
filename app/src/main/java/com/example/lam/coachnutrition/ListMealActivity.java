@@ -59,6 +59,12 @@ public class ListMealActivity extends AppCompatActivity
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshListMeal();
+    }
+
     private void refreshListMeal(){
         String[] columns = {BaseInformation.MealEntry._ID,
                 BaseInformation.MealEntry.COLUMN_CODE,

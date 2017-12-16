@@ -75,7 +75,7 @@ public class Meal implements ModelValues {
     @Override
     public ContentValues getValues() {
         ContentValues values = new ContentValues();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = format.format(time.getTime());
         values.put(BaseInformation.MealEntry.COLUMN_CODE, code);
         values.put(BaseInformation.MealEntry.COLUMN_NAME, name);

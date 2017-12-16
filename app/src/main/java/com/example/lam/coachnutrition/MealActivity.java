@@ -1,10 +1,13 @@
 package com.example.lam.coachnutrition;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +37,29 @@ public class MealActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list_ingredients);
         titre = (TextView) findViewById(R.id.titre);
         codeMeal = getIntent().getIntExtra("codeMeal", 0);
+        refresh();
+
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int i, long l) {
+                Cursor cursor = (Cursor) adapter.getItem(i);
+                final String nom = cursor.getString(cursor.getColumnIndex(BaseInformation.MealEntry.COLUMN_FOOD));
+                AlertDialog.Builder builder = new AlertDialog.Builder(MealActivity.this);
+                builder.setMessage("Veux tu supprimer " + nom + " ? ")
+                        .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                accessProvider.deleteFood(nom, codeMeal);
+                                refresh();
+                            }
+                        })
+                        .setNegativeButton("Non", null)
+                        .show();
+            }
+        });
+    }
+
+    private void refresh(){
         cursor = getMeal();
         titre.setText(cursor.getString(cursor.getColumnIndex(BaseInformation.MealEntry.COLUMN_NAME)));
         cursor = getIngredients();
@@ -66,6 +92,16 @@ public class MealActivity extends AppCompatActivity {
     }
 
     public void supprimerRepas(View v){
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(MealActivity.this);
+        builder.setMessage("Veux tu supprimer ce repas?")
+                .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        accessProvider.deleteMeal(codeMeal);
+                        finish();
+                    }
+                })
+                .setNegativeButton("Non", null)
+                .show();
     }
 }
