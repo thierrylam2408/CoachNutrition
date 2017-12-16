@@ -99,6 +99,7 @@ public class FoodActivity extends AppCompatActivity
                                         Intent intent = new Intent(getApplication(), MealActivity.class);
                                         intent.putExtra("codeMeal", codeMeal);
                                         startActivity(intent);
+                                        finish();
                                     }
                                 }
                             })

@@ -67,6 +67,8 @@ public class AccessProvider {
         String[] args = {name};
         this.contentResolver.delete(BaseInformation.CONTENT_URI_FOOD,
                 BaseInformation.FoodEntry.COLUMN_NAME + "  = ? ", args);
+        this.contentResolver.delete(BaseInformation.CONTENT_URI_MEAL,
+                BaseInformation.MealEntry.COLUMN_FOOD + "  = ? ", args);
     }
 
     public Cursor query(String[] select, Uri uri) {

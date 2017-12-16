@@ -17,6 +17,7 @@ public class MealActivity extends AppCompatActivity {
     private CursorAdapter adapter;
     private ListView listView;
     private int codeMeal;
+    private TextView titre;
     private final String[] select = {
             BaseInformation.MealEntry._ID,
             BaseInformation.MealEntry.COLUMN_CODE,
@@ -31,7 +32,7 @@ public class MealActivity extends AppCompatActivity {
         setContentView(R.layout.activity_meal);
         accessProvider = new AccessProvider(this);
         listView = (ListView) findViewById(R.id.list_ingredients);
-        TextView titre = (TextView) findViewById(R.id.titre);
+        titre = (TextView) findViewById(R.id.titre);
         codeMeal = getIntent().getIntExtra("codeMeal", 0);
         cursor = getMeal();
         titre.setText(cursor.getString(cursor.getColumnIndex(BaseInformation.MealEntry.COLUMN_NAME)));
@@ -61,6 +62,7 @@ public class MealActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FoodActivity.class);
         intent.putExtra("codeMeal", codeMeal);
         startActivity(intent);
+        finish();
     }
 
     public void supprimerRepas(View v){

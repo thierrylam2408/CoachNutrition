@@ -66,7 +66,6 @@ public class SearchFoodActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     accessProvider.deleteFood(nom);
                                     recherche(requete);
-                                    //finish();
                                 }
                             })
                             .setNegativeButton("Non", null)
