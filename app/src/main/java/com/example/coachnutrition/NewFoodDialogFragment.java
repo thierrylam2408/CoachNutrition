@@ -1,4 +1,4 @@
-package com.example.lam.coachnutrition;
+package com.example.coachnutrition;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -28,15 +28,34 @@ public class NewFoodDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         EditText nameText = (EditText) view.findViewById(R.id.name);
-                        EditText calorieText = (EditText) view.findViewById(R.id.calories);
-                        if (nameText.getText().toString().trim().equals("") || calorieText.getText().toString().equals("")) {
+                        EditText caloriesText = (EditText) view.findViewById(R.id.calories);
+                        EditText lipidesText = (EditText) view.findViewById(R.id.lipides);
+                        EditText glucidesText = (EditText) view.findViewById(R.id.glucides);
+                        EditText proteinesText = (EditText) view.findViewById(R.id.proteines);
+
+                        Float calories = null, lipides = null, glucides = null, proteines = null;
+
+                        if (nameText.getText().toString().trim().equals("") || caloriesText.getText().toString().equals("")) {
                             Toast.makeText(getActivity(), "Les champs ne sont pas remplis", Toast.LENGTH_LONG).show();
                         } else {
-                            Spinner foodTypeSpinner = (Spinner) view.findViewById(R.id.type);
+                            Spinner foodCategorySpinner = (Spinner) view.findViewById(R.id.category);
                             String name = nameText.getText().toString();
-                            Float calorie = Float.parseFloat(calorieText.getText().toString());
-                            String type = foodTypeSpinner.getSelectedItem().toString();
-                            Food food = new Food(name, type, calorie);
+                            calories = Float.parseFloat(caloriesText.getText().toString());
+
+                            if(!lipidesText.getText().toString().equals("")) {
+                                lipides = Float.parseFloat(lipidesText.getText().toString());
+                            }
+
+                            if(!glucidesText.getText().toString().equals("")) {
+                                glucides = Float.parseFloat(glucidesText.getText().toString());
+                            }
+
+                            if(!proteinesText.getText().toString().equals("")) {
+                                proteines = Float.parseFloat(proteinesText.getText().toString());
+                            }
+
+                            String type = foodCategorySpinner.getSelectedItem().toString();
+                            Food food = new Food(name, type, calories, lipides, glucides, proteines);
                             accessProvider.insertFood(food);
                             ((FoodActivity) NewFoodDialogFragment.this.getActivity()).onDialogDismiss();
                         }

@@ -1,4 +1,4 @@
-package com.example.lam.coachnutrition;
+package com.example.coachnutrition;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

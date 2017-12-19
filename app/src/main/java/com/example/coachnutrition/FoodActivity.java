@@ -1,4 +1,4 @@
-package com.example.lam.coachnutrition;
+package com.example.coachnutrition;
 
 import android.app.AlertDialog;
 import android.app.DialogFragment;
@@ -54,19 +54,81 @@ public class FoodActivity extends AppCompatActivity
             listView.setOnItemClickListener(new ListView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> a, View v, int i, long l) {
-                    Cursor cursor = (Cursor) adapter.getItem(i);
-                    final String nom = cursor.getString(cursor.getColumnIndex(BaseInformation.FoodEntry.COLUMN_NAME));
+                    final Cursor cursor = (Cursor) adapter.getItem(i);
+                    final String nom = cursor.getString(cursor.getColumnIndex(
+                            BaseInformation.FoodEntry.COLUMN_NAME));
                     AlertDialog.Builder builder = new AlertDialog.Builder(FoodActivity.this);
-                    builder.setMessage("Veux tu supprimer " + nom + " ? ")
-                            .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    accessProvider.deleteFood(nom);
-                                    refreshAffichage();
-                                }
-                            })
-                            .setNegativeButton("Non", null)
-                            .show();
+                    builder.setTitle("Choix : " + nom);
+
+                    final boolean[] checkedChoices = new boolean[]{
+                            false,
+                            false,
+                            false,
+                    };
+                    final CharSequence[] choices = {
+                            "modifier",
+                            "supprimer",
+                            "detail"
+                    };
+                    final int alter = 0, delete = 1, detail = 2;
+
+                    builder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (choices[which] == "modifier") {
+                                checkedChoices[which] = true;
+                            } else if (choices[which] == "supprimer") {
+                                checkedChoices[which] = true;
+                            } else if (choices[which] == "detail") {
+                                checkedChoices[which] = true;
+                            }
+                        }
+                    });
+
+                    builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (checkedChoices[alter]) {
+
+                                //Toast.makeText(getApplicationContext(), "TODO", Toast.LENGTH_LONG).show();
+
+                                DialogFragment dialogFragment = AlterFoodDialogFragment.AlterFoodDialogFragmentWithCursor(cursor);
+                                dialogFragment.show(getFragmentManager(), "");
+
+                                refreshAffichage();
+                            } else if (checkedChoices[delete]) {
+                                accessProvider.deleteFood(nom);
+                                refreshAffichage();
+                            } else if (checkedChoices[detail]) {
+
+                                Food food = new Food(
+                                        cursor.getInt(cursor.getColumnIndex(
+                                                BaseInformation.FoodEntry._ID)),
+                                        cursor.getString(cursor.getColumnIndex(
+                                                BaseInformation.FoodEntry.COLUMN_NAME)),
+                                        cursor.getString(cursor.getColumnIndex(
+                                                BaseInformation.FoodEntry.COLUMN_CATEGORY)),
+                                        cursor.getFloat(cursor.getColumnIndex(
+                                                BaseInformation.FoodEntry.COLUMN_COLORIES)),
+                                        cursor.getFloat(cursor.getColumnIndex(
+                                                BaseInformation.FoodEntry.COLUMN_LIPIDES)),
+                                        cursor.getFloat(cursor.getColumnIndex(
+                                                BaseInformation.FoodEntry.COLUMN_GLUCIDES)),
+                                        cursor.getFloat(cursor.getColumnIndex(
+                                                BaseInformation.FoodEntry.COLUMN_PROTEINES))
+                                );
+
+                                Toast.makeText(getApplicationContext(),
+                                        food.toString(), Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        "Aucun choix validé", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                    builder.setNegativeButton("Non", null);
+                    builder.create().show();
                 }
             });
         } else {

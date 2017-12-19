@@ -1,4 +1,4 @@
-package com.example.lam.coachnutrition;
+package com.example.coachnutrition;
 
 
 import android.content.ContentResolver;
@@ -79,6 +79,18 @@ public class AccessProvider {
             this.contentResolver.update(BaseInformation.CONTENT_URI_MEAL, values, where, selectionArgs);
         } else
             this.contentResolver.insert(BaseInformation.CONTENT_URI_MEAL, _meal.getValues());
+    }
+
+    public void alterFood(Food _food) {
+        ContentValues values = _food.getValues();
+        String[] args = { _food.getName() };
+
+        values.remove(BaseInformation.FoodEntry._ID);
+        values.remove(BaseInformation.FoodEntry.COLUMN_NAME);
+
+        this.contentResolver.update(BaseInformation.CONTENT_URI_FOOD,
+                values, BaseInformation.FoodEntry.COLUMN_NAME + " = ? ", args);
+
     }
 
     public void deleteFood(String name) {

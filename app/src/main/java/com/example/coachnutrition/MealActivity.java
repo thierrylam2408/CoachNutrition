@@ -1,4 +1,4 @@
-package com.example.lam.coachnutrition;
+package com.example.coachnutrition;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

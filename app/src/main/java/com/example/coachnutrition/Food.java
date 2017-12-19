@@ -1,4 +1,4 @@
-package com.example.lam.coachnutrition;
+package com.example.coachnutrition;
 
 import android.content.ContentValues;
 
@@ -45,6 +45,17 @@ public class Food implements ModelValues {
     public Food(String _name, String _category, Float _calorie,
                 Float _lipides, Float _glucides, Float _protéines) {
         id = ++counter_id;
+        name = _name;
+        category = _category;
+        calories = _calorie;
+        lipides = _lipides;
+        glucides = _glucides;
+        proteines = _protéines;
+    }
+
+    public Food(int _id, String _name, String _category, Float _calorie,
+                Float _lipides, Float _glucides, Float _protéines) {
+        id = _id;
         name = _name;
         category = _category;
         calories = _calorie;
@@ -131,7 +142,7 @@ public class Food implements ModelValues {
         }
 
         if (proteines != null) {
-            values.put(BaseInformation.FoodEntry.COLUMN_PROTEINES, calories);
+            values.put(BaseInformation.FoodEntry.COLUMN_PROTEINES, proteines);
         }
 
         return values;

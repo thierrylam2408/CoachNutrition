@@ -1,4 +1,4 @@
-package com.example.lam.coachnutrition;
+package com.example.coachnutrition;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -27,7 +27,7 @@ public class SearchFoodActivity extends AppCompatActivity {
     private CursorAdapter adapter;
     private ListView listView;
     private AccessProvider accessProvider;
-    private DisplayFood modeAffichage;
+    private DisplayFood display;
     private int codeMeal;
     private String requete;
 
@@ -40,9 +40,9 @@ public class SearchFoodActivity extends AppCompatActivity {
         boolean calorie = pref.getBoolean("calorie", DisplayFood.DEFAULT_CALORIE);
         boolean croissant = pref.getBoolean("croissant", DisplayFood.DEFAULT_CROISSANT);
         setContentView(R.layout.activity_research_food);
-        modeAffichage = new DisplayFood(this, detail, name, calorie, croissant, null);
+        display = new DisplayFood(this, detail, name, calorie, croissant, null);
 
-        adapter = modeAffichage.getAdapter(null);
+        adapter = display.getAdapter(null);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -155,10 +155,10 @@ public class SearchFoodActivity extends AppCompatActivity {
     public void recherche(String query) {
         requete = query;
         Cursor cursor = accessProvider.query(
-                modeAffichage.getColumnsCursor(),
+                display.getColumnsCursor(),
                 BaseInformation.FoodEntry.COLUMN_NAME + " LIKE '%" + query + "%'",
-                modeAffichage.getOrderElement(),
-                modeAffichage.getOrderOrientation(),
+                display.getOrderElement(),
+                display.getOrderOrientation(),
                 BaseInformation.CONTENT_URI_FOOD);
         adapter.swapCursor(cursor);
     }
