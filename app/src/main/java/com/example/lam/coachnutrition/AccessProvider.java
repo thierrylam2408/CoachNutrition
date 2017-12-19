@@ -133,7 +133,7 @@ public class AccessProvider {
                 BaseInformation.CONTENT_URI_MEAL);
         while (c.moveToNext()) {
             sum += calorieByFood(c.getString(c.getColumnIndex(BaseInformation.MealEntry.COLUMN_FOOD))) *
-                    c.getFloat(c.getColumnIndex(BaseInformation.MealEntry.COLUMN_WEIGHT));
+                    c.getFloat(c.getColumnIndex(BaseInformation.MealEntry.COLUMN_WEIGHT)) / 100;
         }
         return sum;
     }

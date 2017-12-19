@@ -82,7 +82,7 @@ public class FoodActivity extends AppCompatActivity
                             LinearLayout.LayoutParams.MATCH_PARENT);
                     input.setLayoutParams(lp);
                     AlertDialog.Builder builder = new AlertDialog.Builder(FoodActivity.this);
-                    builder.setMessage("Quelle quantité de " + nom + " veux tu?")
+                    builder.setMessage("Quelle quantité de " + nom + " veux tu? (en gr)")
                             .setView(input)
                             .setPositiveButton("Enregistrer", new DialogInterface.OnClickListener() {
                                 @Override
