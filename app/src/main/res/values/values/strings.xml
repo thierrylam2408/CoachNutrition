@@ -13,9 +13,6 @@
     <string name="confirmer">Confirmer</string>
     <string name="nom">Nom</string>
     <string name="calories">Calories</string>
-    <string name="lipides">Lipides</string>
-    <string name="glucides">Glucides</string>
-    <string name="proteines">Proteines</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

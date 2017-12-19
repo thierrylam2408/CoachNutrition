@@ -2,18 +2,14 @@ package com.example.lam.coachnutrition;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -53,7 +49,6 @@ public class GraphActivity extends AppCompatActivity {
         editMin.setHint(String.valueOf(minCal));
         editMax.setHint(String.valueOf(maxCal));
         setListener();
-
 
 
         drawGraph();
@@ -118,12 +113,16 @@ public class GraphActivity extends AppCompatActivity {
         graph.addSeries(line);
     }
 
-    private void  setListener(){
+    private void setListener() {
         editMin.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
                 if (!s.toString().trim().equals("")) {
@@ -138,9 +137,13 @@ public class GraphActivity extends AppCompatActivity {
         });
         editMax.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
                 if (!s.toString().trim().equals("")) {

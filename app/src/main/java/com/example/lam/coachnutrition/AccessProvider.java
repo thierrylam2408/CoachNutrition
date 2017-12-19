@@ -7,7 +7,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,7 +37,7 @@ public class AccessProvider {
     }
 
     public void displayFood(String selection, String selectionArgs[]) {
-        Cursor cur = this.contentResolver.query(BaseInformation.CONTENT_URI_FOOD, BaseInformation.FoodEntry.columns,
+        Cursor cur = this.contentResolver.query(BaseInformation.CONTENT_URI_FOOD, BaseInformation.FoodEntry.COLUMNS,
                 selection, selectionArgs, null);
 
         if (cur.moveToFirst()) {
@@ -67,23 +66,22 @@ public class AccessProvider {
     public void insertMeal(Meal _meal) {
         String[] args = {BaseInformation.MealEntry._ID, BaseInformation.MealEntry.COLUMN_CODE,
                 BaseInformation.MealEntry.COLUMN_FOOD, BaseInformation.MealEntry.COLUMN_WEIGHT};
-        String where = BaseInformation.MealEntry.COLUMN_CODE + " = "+_meal.getCode() + " and "+
-                BaseInformation.MealEntry.COLUMN_FOOD + " = '"+_meal.getFood()+"'";
+        String where = BaseInformation.MealEntry.COLUMN_CODE + " = " + _meal.getCode() + " and " +
+                BaseInformation.MealEntry.COLUMN_FOOD + " = '" + _meal.getFood() + "'";
         Cursor cursor = this.query(args, where, BaseInformation.CONTENT_URI_MEAL);
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             ContentValues values = new ContentValues();
             values.put(BaseInformation.MealEntry.COLUMN_WEIGHT,
                     _meal.getWeigth() + cursor.getFloat(cursor.getColumnIndex(BaseInformation.MealEntry.COLUMN_WEIGHT)));
-            where = BaseInformation.MealEntry.COLUMN_CODE + " = ? and "+
+            where = BaseInformation.MealEntry.COLUMN_CODE + " = ? and " +
                     BaseInformation.MealEntry.COLUMN_FOOD + " = ?";
             String[] selectionArgs = {String.valueOf(_meal.getCode()), _meal.getFood()};
             this.contentResolver.update(BaseInformation.CONTENT_URI_MEAL, values, where, selectionArgs);
-        }
-        else
+        } else
             this.contentResolver.insert(BaseInformation.CONTENT_URI_MEAL, _meal.getValues());
     }
 
-    public void deleteFood(String name){
+    public void deleteFood(String name) {
         String[] args = {name};
         this.contentResolver.delete(BaseInformation.CONTENT_URI_FOOD,
                 BaseInformation.FoodEntry.COLUMN_NAME + "  = ? ", args);
@@ -91,40 +89,40 @@ public class AccessProvider {
                 BaseInformation.MealEntry.COLUMN_FOOD + "  = ? ", args);
     }
 
-    public void deleteFood(String name, int codeMeal){
+    public void deleteFood(String name, int codeMeal) {
         String[] args = {name, String.valueOf(codeMeal)};
         this.contentResolver.delete(BaseInformation.CONTENT_URI_MEAL,
-                BaseInformation.MealEntry.COLUMN_FOOD + "  = ? and "+
-                BaseInformation.MealEntry.COLUMN_CODE + " = ? ", args);
+                BaseInformation.MealEntry.COLUMN_FOOD + "  = ? and " +
+                        BaseInformation.MealEntry.COLUMN_CODE + " = ? ", args);
     }
 
-    public void deleteMeal(int codeMeal){
+    public void deleteMeal(int codeMeal) {
         String[] args = {String.valueOf(codeMeal)};
         this.contentResolver.delete(BaseInformation.CONTENT_URI_MEAL,
                 BaseInformation.MealEntry.COLUMN_CODE + " = ? ", args);
     }
 
-    public Cursor getMealByDay(Calendar cal){
+    public Cursor getMealByDay(Calendar cal) {
         String[] columns = {BaseInformation.MealEntry._ID,
                 BaseInformation.MealEntry.COLUMN_CODE,
                 BaseInformation.MealEntry.COLUMN_NAME,
                 BaseInformation.MealEntry.COLUMN_TIMESTAMP};
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
         String currentDay = format.format(cal.getTime());
-        cal.add(Calendar.DAY_OF_YEAR,1);
+        cal.add(Calendar.DAY_OF_YEAR, 1);
         String nextDay = format.format(cal.getTime());
         cal.add(Calendar.DAY_OF_YEAR, -1);
         return query(
                 columns,
-                BaseInformation.MealEntry.COLUMN_NAME + " != 'None' and "+
+                BaseInformation.MealEntry.COLUMN_NAME + " != 'None' and " +
                         BaseInformation.MealEntry.COLUMN_TIMESTAMP + " BETWEEN '" +
-                        currentDay+"' AND '"+ nextDay + "'",
+                        currentDay + "' AND '" + nextDay + "'",
                 BaseInformation.MealEntry.COLUMN_TIMESTAMP,
                 "ASC",
                 BaseInformation.CONTENT_URI_MEAL);
     }
 
-    public Float countCaloriesByMeal(int codeMeal){
+    public Float countCaloriesByMeal(int codeMeal) {
         Float sum = 0F;
         String[] selection = {
                 BaseInformation.MealEntry.COLUMN_CODE,
@@ -133,30 +131,30 @@ public class AccessProvider {
         Cursor c = query(selection,
                 BaseInformation.MealEntry.COLUMN_CODE + " = " + codeMeal,
                 BaseInformation.CONTENT_URI_MEAL);
-        while(c.moveToNext()){
+        while (c.moveToNext()) {
             sum += calorieByFood(c.getString(c.getColumnIndex(BaseInformation.MealEntry.COLUMN_FOOD))) *
                     c.getFloat(c.getColumnIndex(BaseInformation.MealEntry.COLUMN_WEIGHT));
         }
         return sum;
     }
 
-    private int calorieByFood(String food){
+    private int calorieByFood(String food) {
         String[] selection = {
-            BaseInformation.FoodEntry.COLUMN_NAME,
+                BaseInformation.FoodEntry.COLUMN_NAME,
                 BaseInformation.FoodEntry.COLUMN_COLORIES
         };
         Cursor c = query(selection,
                 BaseInformation.FoodEntry.COLUMN_NAME + " = '" + food + "'",
                 BaseInformation.CONTENT_URI_FOOD);
-        if(!c.moveToFirst())
+        if (!c.moveToFirst())
             return 0;
         return c.getInt(c.getColumnIndex(BaseInformation.FoodEntry.COLUMN_COLORIES));
     }
 
-    public Float countCalories(Calendar day){
+    public Float countCalories(Calendar day) {
         Float sum = 0F;
         Cursor c = getMealByDay(day);
-        while(c.moveToNext()){
+        while (c.moveToNext()) {
             sum += countCaloriesByMeal(c.getInt(c.getColumnIndex(BaseInformation.MealEntry.COLUMN_CODE)));
         }
         return sum;

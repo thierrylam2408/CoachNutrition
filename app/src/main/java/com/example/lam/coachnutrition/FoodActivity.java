@@ -1,6 +1,5 @@
 package com.example.lam.coachnutrition;
 
-
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -22,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 public class FoodActivity extends AppCompatActivity
         implements RangementFoodFragment.OnDialogInteraction {
 
@@ -30,7 +28,7 @@ public class FoodActivity extends AppCompatActivity
     private Cursor cursor;
     private ListView listView;
     private AccessProvider accessProvider;
-    private DisplayFood modeAffichage;
+    private DisplayFood display;
     private int codeMeal;
 
     @Override
@@ -47,12 +45,12 @@ public class FoodActivity extends AppCompatActivity
         boolean name = pref.getBoolean("name", DisplayFood.DEFAULT_NAME);
         boolean calorie = pref.getBoolean("calorie", DisplayFood.DEFAULT_CALORIE);
         boolean croissant = pref.getBoolean("croissant", DisplayFood.DEFAULT_CROISSANT);
-        modeAffichage = new DisplayFood(this, detail, name, calorie, croissant, null);
+        display = new DisplayFood(this, detail, name, calorie, croissant, null);
         codeMeal = getIntent().getIntExtra("codeMeal", -1);
-        setContentView(R.layout.activity_ingredient);
+        setContentView(R.layout.activity_food);
         accessProvider = new AccessProvider(this);
-        listView = (ListView) findViewById(R.id.ingredients_list);
-        if(codeMeal == -1){
+        listView = (ListView) findViewById(R.id.foods_list);
+        if (codeMeal == -1) {
             listView.setOnItemClickListener(new ListView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> a, View v, int i, long l) {
@@ -71,15 +69,14 @@ public class FoodActivity extends AppCompatActivity
                             .show();
                 }
             });
-        }
-        else{
+        } else {
             listView.setOnItemClickListener(new ListView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> a, View v, int i, long l) {
                     Cursor cursor = (Cursor) adapter.getItem(i);
                     final String nom = cursor.getString(cursor.getColumnIndex(BaseInformation.FoodEntry.COLUMN_NAME));
                     final EditText input = new EditText(FoodActivity.this);
-                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.MATCH_PARENT);
@@ -112,21 +109,21 @@ public class FoodActivity extends AppCompatActivity
     }
 
     private void refreshAffichage() {
-        if(modeAffichage.getType()!=null){
+        if (display.getType() != null) {
             cursor = accessProvider.query(
-                    modeAffichage.getColumnsCursor(),
-                    BaseInformation.FoodEntry.COLUMN_CATEGORY +" = '"+modeAffichage.getType()+"'",
-                    modeAffichage.getOrderElement(),
-                    modeAffichage.getOrderOrientation(),
+                    display.getColumnsCursor(),
+                    BaseInformation.FoodEntry.COLUMN_CATEGORY + " = '" + display.getType() + "'",
+                    display.getOrderElement(),
+                    display.getOrderOrientation(),
                     BaseInformation.CONTENT_URI_FOOD);
-        }else{
+        } else {
             cursor = accessProvider.query(
-                    modeAffichage.getColumnsCursor(),
-                    modeAffichage.getOrderElement(),
-                    modeAffichage.getOrderOrientation(),
+                    display.getColumnsCursor(),
+                    display.getOrderElement(),
+                    display.getOrderOrientation(),
                     BaseInformation.CONTENT_URI_FOOD);
         }
-        adapter = modeAffichage.getAdapter(cursor);
+        adapter = display.getAdapter(cursor);
         listView.setAdapter(adapter);
     }
 
@@ -147,12 +144,12 @@ public class FoodActivity extends AppCompatActivity
                 startActivity(intent);
                 return true;
             case R.id.pannel:
-                modeAffichage.changeDetail();
+                display.changeDetail();
                 this.getSharedPreferences("pref", MODE_PRIVATE).edit().
-                        putBoolean("detail", modeAffichage.getDetail());
+                        putBoolean("detail", display.getDetail());
                 SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
                 SharedPreferences.Editor prefEdit = pref.edit();
-                prefEdit.putBoolean("detail", modeAffichage.getDetail());
+                prefEdit.putBoolean("detail", display.getDetail());
                 prefEdit.apply();
                 refreshAffichage();
                 return true;
@@ -168,35 +165,35 @@ public class FoodActivity extends AppCompatActivity
         selectTypeFood(0);
     }
 
-    public void selectFruit(View v){
+    public void selectFruit(View v) {
         selectTypeFood(1);
     }
 
-    public void selectLegume(View v){
+    public void selectLegume(View v) {
         selectTypeFood(2);
     }
 
-    public void selectEpice(View v){
+    public void selectEpice(View v) {
         selectTypeFood(3);
     }
 
-    public void selectFeculent(View v){
+    public void selectFeculent(View v) {
         selectTypeFood(4);
     }
 
-    public void selectPoisson(View v){
+    public void selectPoisson(View v) {
         selectTypeFood(5);
     }
 
-    public void selectViande(View v){
+    public void selectViande(View v) {
         selectTypeFood(6);
     }
 
-    private void selectTypeFood(int index){
-        String type = getResources().getStringArray(R.array.type_ingredient)[index];
-        if(modeAffichage.getType() != null && modeAffichage.getType().equals(type))
-            modeAffichage.setType(null);
-        else modeAffichage.setType(type);
+    private void selectTypeFood(int index) {
+        String type = getResources().getStringArray(R.array.category_food)[index];
+        if (display.getType() != null && display.getType().equals(type))
+            display.setType(null);
+        else display.setType(type);
         refreshAffichage();
     }
 
@@ -212,14 +209,14 @@ public class FoodActivity extends AppCompatActivity
 
     @Override
     public void onDialogInteraction(boolean alphabet, boolean calorie, boolean croissant) {
-        modeAffichage.setName(alphabet);
-        modeAffichage.setCalorie(calorie);
-        modeAffichage.setCroissant(croissant);
+        display.setName(alphabet);
+        display.setCalorie(calorie);
+        display.setCroissant(croissant);
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         SharedPreferences.Editor prefEdit = pref.edit();
-        prefEdit.putBoolean("name", modeAffichage.getName());
-        prefEdit.putBoolean("calorie", modeAffichage.getCalorie());
-        prefEdit.putBoolean("croissant", modeAffichage.getCroissant());
+        prefEdit.putBoolean("name", display.getName());
+        prefEdit.putBoolean("calorie", display.getCalorie());
+        prefEdit.putBoolean("croissant", display.getCroissant());
         prefEdit.apply();
         refreshAffichage();
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="category_food">
+    <string-array name="type_ingredient">
         <item>@string/cremerie</item>
         <item>@string/fruit</item>
         <item>@string/legume</item>
@@ -11,13 +11,8 @@
     </string-array>
 
 
-    <string-array name="category_rangement_food">
+    <string-array name="type_rangement_ingredient">
         <item>Nom</item>
-        <item>Calories</item>
-        <!--
-        <item>Lipides</item>
-        <item>Glucides</item>
-        <item>Proteines</item>
-        -->
+        <item>Calorie</item>
     </string-array>
 </resources>

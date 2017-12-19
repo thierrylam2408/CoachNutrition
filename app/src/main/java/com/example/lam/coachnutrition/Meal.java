@@ -1,15 +1,11 @@
 package com.example.lam.coachnutrition;
 
-/**
- * Created by LAM on 11/12/2017.
- */
 import android.content.ContentValues;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 public class Meal implements ModelValues {
-
 
     private int id;
     private int code;
@@ -18,7 +14,7 @@ public class Meal implements ModelValues {
     private float weigth;
     private Timestamp time;
 
-    public Meal(int code, String name, Timestamp time){
+    public Meal(int code, String name, Timestamp time) {
         this.code = code;
         this.name = name;
         food = "None";
@@ -26,14 +22,13 @@ public class Meal implements ModelValues {
         this.time = time;
     }
 
-    public Meal(int code, String food, float weigth){
+    public Meal(int code, String food, float weigth) {
         this.code = code;
         this.name = "None";
         this.food = food;
         this.weigth = weigth;
         time = new Timestamp(System.currentTimeMillis());
     }
-
 
 
     public int getId() {

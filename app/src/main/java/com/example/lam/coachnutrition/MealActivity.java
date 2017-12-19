@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MealActivity extends AppCompatActivity {
 
@@ -59,7 +58,7 @@ public class MealActivity extends AppCompatActivity {
         });
     }
 
-    private void refresh(){
+    private void refresh() {
         cursor = getMeal();
         titre.setText(cursor.getString(cursor.getColumnIndex(BaseInformation.MealEntry.COLUMN_NAME)));
         cursor = getIngredients();
@@ -67,7 +66,7 @@ public class MealActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-    private Cursor getMeal(){
+    private Cursor getMeal() {
         Cursor c = accessProvider.query(select,
                 BaseInformation.MealEntry.COLUMN_CODE + " = '" + codeMeal + "' and " +
                         BaseInformation.MealEntry.COLUMN_NAME + " != 'None'",
@@ -76,22 +75,22 @@ public class MealActivity extends AppCompatActivity {
         return c;
     }
 
-    private Cursor getIngredients(){
+    private Cursor getIngredients() {
         Cursor c = accessProvider.query(select,
-                BaseInformation.MealEntry.COLUMN_CODE + " = '" + codeMeal + "' and "+
-                    BaseInformation.MealEntry.COLUMN_NAME + " = 'None'",
+                BaseInformation.MealEntry.COLUMN_CODE + " = '" + codeMeal + "' and " +
+                        BaseInformation.MealEntry.COLUMN_NAME + " = 'None'",
                 BaseInformation.CONTENT_URI_MEAL);
         return c;
     }
 
-    public void ajouterIngredient(View v){
+    public void ajouterIngredient(View v) {
         Intent intent = new Intent(this, FoodActivity.class);
         intent.putExtra("codeMeal", codeMeal);
         startActivity(intent);
         finish();
     }
 
-    public void supprimerRepas(View v){
+    public void supprimerRepas(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MealActivity.this);
         builder.setMessage("Veux tu supprimer ce repas?")
                 .setPositiveButton("Oui", new DialogInterface.OnClickListener() {

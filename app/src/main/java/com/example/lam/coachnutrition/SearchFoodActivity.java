@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 public class SearchFoodActivity extends AppCompatActivity {
 
     private CursorAdapter adapter;
@@ -35,12 +34,12 @@ public class SearchFoodActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences pref=getSharedPreferences("pref", MODE_PRIVATE);
+        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         boolean detail = pref.getBoolean("detail", DisplayFood.DEFAULT_DETAIL);
         boolean name = pref.getBoolean("name", DisplayFood.DEFAULT_NAME);
         boolean calorie = pref.getBoolean("calorie", DisplayFood.DEFAULT_CALORIE);
         boolean croissant = pref.getBoolean("croissant", DisplayFood.DEFAULT_CROISSANT);
-        setContentView(R.layout.activity_research_ingredient);
+        setContentView(R.layout.activity_research_food);
         modeAffichage = new DisplayFood(this, detail, name, calorie, croissant, null);
 
         adapter = modeAffichage.getAdapter(null);
@@ -49,11 +48,11 @@ public class SearchFoodActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        listView = (ListView) findViewById(R.id.ingredients_list);
+        listView = (ListView) findViewById(R.id.foods_list);
         listView.setAdapter(adapter);
         accessProvider = new AccessProvider(this);
         codeMeal = getIntent().getIntExtra("codeMeal", -1);
-        if(codeMeal == -1){
+        if (codeMeal == -1) {
             listView.setOnItemClickListener(new ListView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> a, View v, int i, long l) {
@@ -72,8 +71,7 @@ public class SearchFoodActivity extends AppCompatActivity {
                             .show();
                 }
             });
-        }
-        else{
+        } else {
             listView.setOnItemClickListener(new ListView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> a, View v, int i, long l) {
@@ -154,7 +152,7 @@ public class SearchFoodActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void recherche(String query){
+    public void recherche(String query) {
         requete = query;
         Cursor cursor = accessProvider.query(
                 modeAffichage.getColumnsCursor(),

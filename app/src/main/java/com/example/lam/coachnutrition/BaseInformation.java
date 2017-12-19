@@ -1,16 +1,12 @@
 package com.example.lam.coachnutrition;
 
-/**
- * Created by LAM on 11/12/2017.
- */
-
 import android.content.UriMatcher;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class BaseInformation {
 
-    public static final String AUTHORITY = "com.projet.contentprovider";
+    public static final String AUTHORITY = "com.projet.coachnutrition";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
@@ -48,9 +44,13 @@ public class BaseInformation {
         public final static String COLUMN_GLUCIDES = "glucides";
         public final static String COLUMN_PROTEINES = "proteines";
 
-        public final static String columns[] =  { _ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_COLORIES };
+        public final static String COLUMNS[] = {_ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_COLORIES,
+                COLUMN_LIPIDES, COLUMN_GLUCIDES, COLUMN_PROTEINES};
 
-        //public final static String columns[] =  { _ID, COLUMN_NAME, COLUMN_CATEGORY, COLUMN_COLORIES, COLUMN_LIPIDES, COLUMN_GLUCIDES, COLUMN_PROTEINES };
+        public final static String NO_DETAIL_COLUMNS[] = {_ID, COLUMN_NAME,
+                COLUMN_CATEGORY, COLUMN_COLORIES};
+
+        public final static String DETAIL_COLUMNS[] = COLUMNS;
 
     }
 

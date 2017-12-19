@@ -2,43 +2,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lam.coachnutrition.CreateMealFragment">
+    tools:context=".CreateMealFragment">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginLeft="80dp"
-    android:layout_marginRight="80dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp">
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/name"
-        android:hint="@string/nom"/>
-
-    <TimePicker
-        android:id="@+id/tp"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:timePickerMode="spinner"
-        />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/annuler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Annuler" />
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/nom" />
 
-    <Button
-        android:id="@+id/confirmer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Confirmer" />
+        <TimePicker
+            android:id="@+id/tp"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:timePickerMode="spinner" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/annuler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Annuler" />
+
+        <Button
+            android:id="@+id/confirmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Confirmer" />
+
+    </LinearLayout>
 
 
 </FrameLayout>

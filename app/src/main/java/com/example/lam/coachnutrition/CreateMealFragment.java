@@ -2,7 +2,6 @@ package com.example.lam.coachnutrition;
 
 import android.app.DialogFragment;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,17 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
-
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CreateMealFragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link CreateMealFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -69,16 +64,16 @@ public class CreateMealFragment extends DialogFragment {
             }
         });
 
-        confirmerB.setOnClickListener(new View.OnClickListener(){
+        confirmerB.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 String nom = editText.getText().toString();
                 int hours = timePicker.getHour();
                 int mins = timePicker.getMinute();
-                if(nom.trim().equals("")){
+                if (nom.trim().equals("")) {
                     editText.setError("Le nom est necessaire!");
-                }else{
+                } else {
                     onButtonPressed(nom, hours, mins);
                     dismiss();
                 }

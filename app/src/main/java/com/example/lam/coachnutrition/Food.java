@@ -1,9 +1,5 @@
 package com.example.lam.coachnutrition;
 
-/**
- * Created by LAM on 11/12/2017.
- */
-
 import android.content.ContentValues;
 
 public class Food implements ModelValues {
@@ -56,7 +52,6 @@ public class Food implements ModelValues {
         glucides = _glucides;
         proteines = _protéines;
     }
-
 
     public int getId() {
         return id;
@@ -127,15 +122,15 @@ public class Food implements ModelValues {
         values.put(BaseInformation.FoodEntry.COLUMN_CATEGORY, category);
         values.put(BaseInformation.FoodEntry.COLUMN_COLORIES, calories);
 
-        if(lipides != null) {
+        if (lipides != null) {
             values.put(BaseInformation.FoodEntry.COLUMN_LIPIDES, lipides);
         }
 
-        if(glucides != null) {
+        if (glucides != null) {
             values.put(BaseInformation.FoodEntry.COLUMN_GLUCIDES, glucides);
         }
 
-        if(proteines != null) {
+        if (proteines != null) {
             values.put(BaseInformation.FoodEntry.COLUMN_PROTEINES, calories);
         }
 

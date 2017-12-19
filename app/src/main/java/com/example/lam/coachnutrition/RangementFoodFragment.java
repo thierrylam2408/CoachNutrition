@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
-
 public class RangementFoodFragment extends DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,10 +50,10 @@ public class RangementFoodFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_rangement_ingredient, container, false);
+        View v = inflater.inflate(R.layout.fragment_rangement_food, container, false);
         final Spinner spinner = (Spinner) v.findViewById(R.id.spinner);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.type_rangement_ingredient));
+                android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.category_rangement_food));
         spinner.setAdapter(spinnerAdapter);
         Button annulerB = (Button) v.findViewById(R.id.annuler);
         Button confirmerB = (Button) v.findViewById(R.id.confirmer);

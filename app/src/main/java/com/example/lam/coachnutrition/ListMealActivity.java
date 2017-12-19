@@ -11,10 +11,8 @@ import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class ListMealActivity extends AppCompatActivity
@@ -65,26 +63,24 @@ public class ListMealActivity extends AppCompatActivity
         refreshListMeal();
     }
 
-    private void refreshListMeal(){
+    private void refreshListMeal() {
         cursor = accessProvider.getMealByDay(cal);
         adapter = AdapterProvider.getTwoItemAdapterListMeal(this, cursor);
         listView.setAdapter(adapter);
     }
 
-    private void refreshDate(){
-        if(dayFromToday == 0){
+    private void refreshDate() {
+        if (dayFromToday == 0) {
             previous.setEnabled(false);
             previous.setImageResource(R.drawable.ic_dnd_on_24dp);
-        }
-        else{
+        } else {
             previous.setEnabled(true);
             previous.setImageResource(R.drawable.ic_chevron_left_24dp);
         }
-        if(dayFromToday == 7){
+        if (dayFromToday == 7) {
             next.setEnabled(false);
             next.setImageResource(R.drawable.ic_dnd_on_24dp);
-        }
-        else{
+        } else {
             next.setEnabled(true);
             next.setImageResource(R.drawable.ic_chevron_right_24dp);
         }
@@ -92,18 +88,18 @@ public class ListMealActivity extends AppCompatActivity
         refreshListMeal();
     }
 
-    public void ajouterRepas(View v){
+    public void ajouterRepas(View v) {
         DialogFragment dialog = new CreateMealFragment().newInstance();
         dialog.show(getFragmentManager(), "mon dialog");
     }
 
-    public void goPrevious(View v){
+    public void goPrevious(View v) {
         dayFromToday--;
         cal.add(Calendar.DAY_OF_YEAR, -1);
         refreshDate();
     }
 
-    public void goNext(View v){
+    public void goNext(View v) {
         dayFromToday++;
         cal.add(Calendar.DAY_OF_YEAR, 1);
         refreshDate();
@@ -115,11 +111,11 @@ public class ListMealActivity extends AppCompatActivity
         cal.set(Calendar.MINUTE, mins);
         Timestamp tp = new Timestamp(cal.getTimeInMillis());
         Cursor c = accessProvider.query(
-                new String[]{"MAX("+BaseInformation.MealEntry.COLUMN_CODE+")"},
+                new String[]{"MAX(" + BaseInformation.MealEntry.COLUMN_CODE + ")"},
                 BaseInformation.CONTENT_URI_MEAL);
         c.moveToFirst();
-        int code = c.getInt(0)+1;
-        Meal meal = new Meal(code ,nom, tp);
+        int code = c.getInt(0) + 1;
+        Meal meal = new Meal(code, nom, tp);
         accessProvider.insertMeal(meal);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);

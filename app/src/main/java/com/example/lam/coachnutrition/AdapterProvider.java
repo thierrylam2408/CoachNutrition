@@ -2,7 +2,6 @@ package com.example.lam.coachnutrition;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
 
 public class AdapterProvider {

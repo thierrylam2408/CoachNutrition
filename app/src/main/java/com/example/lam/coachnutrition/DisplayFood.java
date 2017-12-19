@@ -4,9 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.widget.CursorAdapter;
 
-/**
- * Created by LAM on 11/12/2017.
- */
 public class DisplayFood {
 
     public static final boolean DEFAULT_DETAIL = false;
@@ -52,8 +49,8 @@ public class DisplayFood {
         String[] notDetailedColumns = {BaseInformation.FoodEntry._ID, BaseInformation.FoodEntry.COLUMN_NAME};
         String[] detailedColumns = {BaseInformation.FoodEntry._ID, BaseInformation.FoodEntry.COLUMN_NAME, BaseInformation.FoodEntry.COLUMN_COLORIES};
         if (!detail)
-            return notDetailedColumns;
-        else return detailedColumns;
+            return BaseInformation.FoodEntry.NO_DETAIL_COLUMNS;
+        else return BaseInformation.FoodEntry.DETAIL_COLUMNS;
     }
 
     public String getOrderOrientation() {
@@ -92,11 +89,19 @@ public class DisplayFood {
         return name;
     }
 
-    public boolean getCalorie() { return calorie; }
+    public boolean getCalorie() {
+        return calorie;
+    }
 
-    public boolean getCroissant() { return croissant; }
+    public boolean getCroissant() {
+        return croissant;
+    }
 
-    public String getType() { return type; }
+    public String getType() {
+        return type;
+    }
 
-    public void setType(String type){ this.type = type; }
+    public void setType(String type) {
+        this.type = type;
+    }
 }

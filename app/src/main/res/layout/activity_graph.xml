@@ -3,39 +3,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context="com.example.lam.coachnutrition.GraphActivity">
+    tools:context=".GraphActivity">
 
     <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
         android:layout_width="match_parent"
-        android:layout_height="200dip"
-        android:id="@+id/graph" />
+        android:layout_height="200dip" />
 
     <LinearLayout
-        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="10dp"
         android:weightSum="2">
 
         <TextView
-            android:text="Calories minimum:"
-            android:textAlignment="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="Calories minimum:"
+            android:textAlignment="center" />
 
 
         <TextView
-            android:text="Calories maximum:"
-            android:textAlignment="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="Calories maximum:"
+            android:textAlignment="center" />
 
     </LinearLayout>
 
@@ -46,19 +46,19 @@
         android:weightSum="2">
 
         <EditText
-            android:inputType="numberDecimal"
             android:id="@+id/editMin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:inputType="numberDecimal" />
 
 
         <EditText
-            android:inputType="numberDecimal"
             android:id="@+id/editMax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:inputType="numberDecimal" />
 
     </LinearLayout>
 
