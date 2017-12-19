@@ -25,6 +25,7 @@
         android:hint="Kcal/100gr"
         android:inputType="numberDecimal" />
 
+
     <EditText
         android:id="@+id/lipides"
         android:layout_width="match_parent"

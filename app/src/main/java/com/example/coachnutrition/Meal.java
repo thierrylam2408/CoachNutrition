@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 
 public class Meal implements ModelValues {
 
+    private int id;
     private int code;
     private String name;
     private String food;
@@ -27,6 +28,11 @@ public class Meal implements ModelValues {
         this.food = food;
         this.weigth = weigth;
         time = new Timestamp(System.currentTimeMillis());
+    }
+
+
+    public int getId() {
+        return id;
     }
 
     public int getCode() {
@@ -52,7 +58,8 @@ public class Meal implements ModelValues {
     @Override
     public String toString() {
         return "Meal{" +
-                "code=" + code +
+                "id=" + id +
+                ", code=" + code +
                 ", name='" + name + '\'' +
                 ", food=" + food +
                 ", weigth=" + weigth +

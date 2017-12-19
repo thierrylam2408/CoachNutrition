@@ -4,21 +4,17 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 
-public class AlterFoodDialogFragment extends DialogFragment {
 
+public class AlterFoodDialogFragment extends DialogFragment {
     private EditText nameText, caloriesText, lipidesText, glucidesText, proteinesText;
     private Spinner spinner;
     private Cursor cursor;
@@ -31,7 +27,6 @@ public class AlterFoodDialogFragment extends DialogFragment {
         return fragment;
     }
 
-
     protected Cursor getCursor() {
         return this.cursor;
     }
@@ -41,22 +36,35 @@ public class AlterFoodDialogFragment extends DialogFragment {
     }
 
     private void buildFood() {
-        food = new Food(
-                this.cursor.getInt(this.cursor
-                        .getColumnIndex(BaseInformation.FoodEntry._ID)),
-                this.cursor.getString(this.cursor
-                        .getColumnIndex(BaseInformation.FoodEntry.COLUMN_NAME)),
-                this.cursor.getString(this.cursor
-                        .getColumnIndex(BaseInformation.FoodEntry.COLUMN_CATEGORY)),
-                this.cursor.getFloat(this.cursor
-                        .getColumnIndex(BaseInformation.FoodEntry.COLUMN_COLORIES)),
-                this.cursor.getFloat(this.cursor
-                        .getColumnIndex(BaseInformation.FoodEntry.COLUMN_LIPIDES)),
-                this.cursor.getFloat(this.cursor
-                        .getColumnIndex(BaseInformation.FoodEntry.COLUMN_GLUCIDES)),
-                this.cursor.getFloat(this.cursor
-                        .getColumnIndex(BaseInformation.FoodEntry.COLUMN_PROTEINES))
-        );
+        if(cursor.getColumnCount() > 4) {
+            food = new Food(
+                    this.cursor.getInt(this.cursor
+                            .getColumnIndex(BaseInformation.FoodEntry._ID)),
+                    this.cursor.getString(this.cursor
+                            .getColumnIndex(BaseInformation.FoodEntry.COLUMN_NAME)),
+                    this.cursor.getString(this.cursor
+                            .getColumnIndex(BaseInformation.FoodEntry.COLUMN_CATEGORY)),
+                    this.cursor.getFloat(this.cursor
+                            .getColumnIndex(BaseInformation.FoodEntry.COLUMN_COLORIES)),
+                    this.cursor.getFloat(this.cursor
+                            .getColumnIndex(BaseInformation.FoodEntry.COLUMN_LIPIDES)),
+                    this.cursor.getFloat(this.cursor
+                            .getColumnIndex(BaseInformation.FoodEntry.COLUMN_GLUCIDES)),
+                    this.cursor.getFloat(this.cursor
+                            .getColumnIndex(BaseInformation.FoodEntry.COLUMN_PROTEINES))
+            );
+        } else {
+            food = new Food(
+                    this.cursor.getString(this.cursor
+                            .getColumnIndex(BaseInformation.FoodEntry.COLUMN_NAME)),
+                    this.cursor.getString(this.cursor
+                            .getColumnIndex(BaseInformation.FoodEntry.COLUMN_CATEGORY)),
+                    this.cursor.getFloat(this.cursor
+                            .getColumnIndex(BaseInformation.FoodEntry.COLUMN_COLORIES))
+            );
+            food.setId(this.cursor.getInt(this.cursor
+                    .getColumnIndex(BaseInformation.FoodEntry._ID)));
+        }
     }
 
     @Override
@@ -74,7 +82,6 @@ public class AlterFoodDialogFragment extends DialogFragment {
         glucidesText = (EditText) view.findViewById(R.id.glucides);
         proteinesText = (EditText) view.findViewById(R.id.proteines);
         spinner = (Spinner) view.findViewById(R.id.spinner);
-
 
         nameText.setText(food.getName());
         caloriesText.setText("" + food.getCalories());

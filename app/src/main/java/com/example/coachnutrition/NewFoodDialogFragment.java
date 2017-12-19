@@ -33,7 +33,7 @@ public class NewFoodDialogFragment extends DialogFragment {
                         EditText glucidesText = (EditText) view.findViewById(R.id.glucides);
                         EditText proteinesText = (EditText) view.findViewById(R.id.proteines);
 
-                        Float calories = null, lipides = null, glucides = null, proteines = null;
+                        Float calories, lipides = null, glucides = null, proteines = null;
 
                         if (nameText.getText().toString().trim().equals("") || caloriesText.getText().toString().equals("")) {
                             Toast.makeText(getActivity(), "Les champs ne sont pas remplis", Toast.LENGTH_LONG).show();
@@ -54,8 +54,9 @@ public class NewFoodDialogFragment extends DialogFragment {
                                 proteines = Float.parseFloat(proteinesText.getText().toString());
                             }
 
-                            String type = foodCategorySpinner.getSelectedItem().toString();
-                            Food food = new Food(name, type, calories, lipides, glucides, proteines);
+                            String category = foodCategorySpinner.getSelectedItem().toString();
+
+                            Food food = new Food(name, category, calories, lipides, glucides, proteines);
                             accessProvider.insertFood(food);
                             ((FoodActivity) NewFoodDialogFragment.this.getActivity()).onDialogDismiss();
                         }
